@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { MUSCLES, muscleFor, muscleLoad, withIntensity } from "./muscles";
+import { MUSCLES, WEEKLY_SET_TARGET, muscleFor, muscleLoad, weeklyMuscleSets, withIntensity } from "./muscles";
 import { makeSet } from "./testing";
 
 describe("muscleFor", () => {
@@ -64,5 +64,41 @@ describe("withIntensity", () => {
 
     it("gives 0 to everything when nothing was trained", () => {
         expect(withIntensity(muscleLoad([], 7, new Date())).every((entry) => entry.intensity === 0)).toBe(true);
+    });
+});
+
+describe("weeklyMuscleSets", () => {
+    const now = new Date(2024, 0, 31, 12);
+    const sets = [
+        makeSet({ date: "2024-01-16 10:00:00" }),
+        makeSet({ date: "2024-01-23 10:00:00" }),
+        makeSet({ date: "2024-01-23 10:00:00", exercise: "Overhead Press (Barbell)" }),
+        makeSet({ date: "2024-01-30 10:00:00", setOrder: "W" }),
+        makeSet({ date: "2024-01-08 10:00:00" }),
+        makeSet({ date: "2024-01-16 10:00:00", exercise: "Running" }),
+    ];
+
+    it("lists the requested number of weeks ending with the current one", () => {
+        expect(weeklyMuscleSets(sets, "Brust", now, 3).map((week) => week.weekStart)).toEqual([
+            "2024-01-15",
+            "2024-01-22",
+            "2024-01-29",
+        ]);
+    });
+
+    it("counts primary sets fully and secondary sets half, per week", () => {
+        expect(weeklyMuscleSets(sets, "Brust", now, 3).map((week) => week.value)).toEqual([1, 1, 0]);
+        expect(weeklyMuscleSets(sets, "Schultern", now, 3).map((week) => week.value)).toEqual([0.5, 1.5, 0]);
+        expect(weeklyMuscleSets(sets, "Trizeps", now, 3).map((week) => week.value)).toEqual([0.5, 1, 0]);
+    });
+
+    it("skips warm-ups, older weeks and exercises without a muscle mapping", () => {
+        expect(weeklyMuscleSets(sets, "Bizeps", now, 3).map((week) => week.value)).toEqual([0, 0, 0]);
+    });
+});
+
+describe("WEEKLY_SET_TARGET", () => {
+    it("is a low-to-high range of weekly sets per muscle", () => {
+        expect(WEEKLY_SET_TARGET[0]).toBeLessThan(WEEKLY_SET_TARGET[1]);
     });
 });

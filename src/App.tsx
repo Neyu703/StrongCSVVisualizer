@@ -68,7 +68,7 @@ export default function App() {
                 {tab === "history" && <History sets={sets} unit={unit} />}
                 {tab === "exercises" && <Exercises sets={sets} unit={unit} now={now} showTrendlines={settings.showTrendlines} selected={exercise} onSelect={openExercise} />}
                 {tab === "records" && <Records sets={sets} unit={unit} onSelectExercise={openExercise} />}
-                {tab === "muscles" && <Muscles sets={sets} now={now} model={settings.bodyModel} />}
+                {tab === "muscles" && <Muscles sets={sets} now={now} model={settings.bodyModel} showTrendlines={settings.showTrendlines} />}
                 {tab === "settings" && <Settings settings={settings} onChange={updateSettings} />}
             </main>
             <TabBar tabs={TABS} active={tab} onSelect={setTab} />

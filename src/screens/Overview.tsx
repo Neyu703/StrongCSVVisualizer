@@ -67,7 +67,7 @@ export function Overview({ sets, unit, now, showTrendlines, message, onFile, onR
                     </div>
                     <Card title="Workouts pro Woche">
                         <SegmentedControl label="Zeitraum" options={WEEK_RANGES} value={range} onChange={setRange} />
-                        <WeeklyChart weeks={weeks} showTrend={showTrendlines} />
+                        <WeeklyChart weeks={weeks} valueLabel="Workouts" showTrend={showTrendlines} />
                     </Card>
                     <Card title="Trainingskalender">
                         <CalendarHeatmap weeks={calendar} />

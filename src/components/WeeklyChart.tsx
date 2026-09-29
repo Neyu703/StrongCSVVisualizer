@@ -1,12 +1,16 @@
-import { Bar, CartesianGrid, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, CartesianGrid, ComposedChart, Line, ReferenceArea, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { formatDate, formatNumber } from "../core/format";
-import type { WeekCount } from "../core/stats";
+import type { WeekValue } from "../core/stats";
 import { addTrend } from "../core/trend";
 import { CHART_MARGIN, GRID_PROPS, TOOLTIP_STYLE, TREND_LINE, X_AXIS_PROPS, Y_AXIS_PROPS } from "./chartStyle";
 
 interface WeeklyChartProps {
-    weeks: WeekCount[];
+    weeks: WeekValue[];
+    /** Name of the plotted quantity in the tooltip, e.g. "Workouts". */
+    valueLabel: string;
     showTrend: boolean;
+    /** Optional highlighted target range (low, high). */
+    band?: readonly [number, number];
 }
 
 /**
@@ -18,20 +22,10 @@ function formatWeek(weekStart: string): string {
     return formatDate(`${weekStart} 00:00:00`, "short");
 }
 
-/**
- * Formats a tooltip entry for the bars or the trend line.
- * @param value series value
- * @param name series name
- * @returns value and label for the tooltip
- */
-function formatEntry(value: unknown, name: unknown): [string, string] {
-    return name === "Trend" ? [formatNumber(Number(value), 1), "Trend"] : [String(value), "Workouts"];
-}
-
-/** Bar chart of workouts per week, optionally with a least-squares trend line. */
-export function WeeklyChart({ weeks, showTrend }: WeeklyChartProps) {
-    const trended = showTrend ? addTrend(weeks, { x: (_, index) => index, y: (week) => week.count }, "least-squares") : null;
-    // A workout count cannot be negative, so a falling line stops at 0
+/** Bar chart of a weekly quantity, optionally with a least-squares trend line and a target range. */
+export function WeeklyChart({ weeks, valueLabel, showTrend, band }: WeeklyChartProps) {
+    const trended = showTrend ? addTrend(weeks, { x: (_, index) => index, y: (week) => week.value }, "least-squares") : null;
+    // Weekly counts cannot be negative, so a falling line stops at 0
     const data = trended?.points.map((week) => ({ ...week, trend: Math.max(0, week.trend) })) ?? weeks;
     return (
         <ResponsiveContainer width="100%" height={180}>
@@ -43,14 +37,15 @@ export function WeeklyChart({ weeks, showTrend }: WeeklyChartProps) {
                     tickFormatter={formatWeek}
                     minTickGap={32}
                 />
-                <YAxis width={28} {...Y_AXIS_PROPS} allowDecimals={false} domain={[0, "auto"]} />
+                <YAxis width={28} {...Y_AXIS_PROPS} allowDecimals={weeks.some((week) => !Number.isInteger(week.value))} domain={[0, "auto"]} />
                 <Tooltip
                     cursor={{ fill: "var(--fill)" }}
                     contentStyle={TOOLTIP_STYLE}
                     labelFormatter={(weekStart) => `Woche ab ${formatWeek(String(weekStart))}`}
-                    formatter={formatEntry}
+                    formatter={(value, name) => [formatNumber(Number(value), 1), String(name)]}
                 />
-                <Bar name="Workouts" dataKey="count" fill="var(--tint)" radius={[4, 4, 0, 0]} isAnimationActive={false} />
+                {band && <ReferenceArea y1={band[0]} y2={band[1]} fill="var(--green)" fillOpacity={0.12} ifOverflow="extendDomain" />}
+                <Bar name={valueLabel} dataKey="value" fill="var(--tint)" radius={[4, 4, 0, 0]} isAnimationActive={false} />
                 {trended && <Line name="Trend" dataKey="trend" type="linear" {...TREND_LINE} />}
             </ComposedChart>
         </ResponsiveContainer>

@@ -131,11 +131,11 @@ describe("overviewStats", () => {
         const stats = overviewStats(SETS, new Date(2024, 0, 31, 12));
         expect(stats).toMatchObject({ workouts: 3, workingSets: 7, totalVolume: 2615, totalSeconds: 10800 });
         expect(stats.weeks).toEqual([
-            { weekStart: "2024-01-01", count: 1 },
-            { weekStart: "2024-01-08", count: 1 },
-            { weekStart: "2024-01-15", count: 0 },
-            { weekStart: "2024-01-22", count: 1 },
-            { weekStart: "2024-01-29", count: 0 },
+            { weekStart: "2024-01-01", value: 1 },
+            { weekStart: "2024-01-08", value: 1 },
+            { weekStart: "2024-01-15", value: 0 },
+            { weekStart: "2024-01-22", value: 1 },
+            { weekStart: "2024-01-29", value: 0 },
         ]);
     });
 

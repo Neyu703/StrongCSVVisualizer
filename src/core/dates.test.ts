@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { daysBefore, isoDay, mondayOf, parseDate, weekStarts } from "./dates";
+import { daysBefore, isoDay, lastWeekStarts, mondayOf, parseDate, weekStarts } from "./dates";
 
 describe("dates", () => {
     it("computes the start of a day-based time window", () => {
@@ -31,5 +31,14 @@ describe("dates", () => {
 
     it("lists a single week when both dates share it", () => {
         expect(weekStarts(parseDate("2024-03-04 00:00:00"), parseDate("2024-03-10 23:00:00"))).toEqual(["2024-03-04"]);
+    });
+
+    it("lists the Mondays of the last weeks ending with the current one", () => {
+        expect(lastWeekStarts(parseDate("2024-03-20 09:00:00"), 3)).toEqual(["2024-03-04", "2024-03-11", "2024-03-18"]);
+        expect(lastWeekStarts(parseDate("2024-03-20 09:00:00"), 1)).toEqual(["2024-03-18"]);
+    });
+
+    it("counts calendar weeks even across a daylight-saving change just after midnight", () => {
+        expect(lastWeekStarts(parseDate("2024-04-01 00:30:00"), 2)).toEqual(["2024-03-25", "2024-04-01"]);
     });
 });

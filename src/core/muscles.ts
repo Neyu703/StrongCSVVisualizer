@@ -1,5 +1,6 @@
-import { daysBefore, parseDate } from "./dates";
+import { daysBefore, isoDay, lastWeekStarts, mondayOf, parseDate } from "./dates";
 import { workingSets } from "./sets";
+import type { WeekValue } from "./stats";
 import type { WorkoutSet } from "./types";
 
 export const MUSCLES = [
@@ -37,6 +38,9 @@ export interface MuscleLoad {
 
 const SECONDARY_WEIGHT = 0.5;
 
+/** Recommended weekly weighted sets per muscle (low, high). */
+export const WEEKLY_SET_TARGET = [10, 20] as const;
+
 /** Ordered keyword rules; the first matching rule wins, so specific names come before generic ones. */
 const MUSCLE_RULES: [RegExp, MuscleUsage][] = [
     [/calf/, { primary: ["Waden"], secondary: [] }],
@@ -71,6 +75,19 @@ export function muscleFor(exercise: string): MuscleUsage {
 }
 
 /**
+ * Lists how much one set of an exercise counts for each muscle it trains.
+ * @param exercise exercise name
+ * @returns muscle and weight pairs: 1 for primary, half for secondary muscles
+ */
+function setContributions(exercise: string): [Muscle, number][] {
+    const { primary, secondary } = muscleFor(exercise);
+    return [
+        ...primary.map((muscle): [Muscle, number] => [muscle, 1]),
+        ...secondary.map((muscle): [Muscle, number] => [muscle, SECONDARY_WEIGHT]),
+    ];
+}
+
+/**
  * Sums weighted working sets per muscle over the last days.
  * @param sets all sets
  * @param days size of the time window
@@ -84,15 +101,32 @@ export function muscleLoad(sets: WorkoutSet[], days: number, now: Date): MuscleL
         if (parseDate(set.date).getTime() < cutoff) {
             continue;
         }
-        const { primary, secondary } = muscleFor(set.exercise);
-        primary.forEach((muscle) => {
-            loads[muscle] += 1;
-        });
-        secondary.forEach((muscle) => {
-            loads[muscle] += SECONDARY_WEIGHT;
-        });
+        for (const [muscle, weight] of setContributions(set.exercise)) {
+            loads[muscle] += weight;
+        }
     }
     return MUSCLES.map((muscle) => ({ muscle, load: loads[muscle] }));
+}
+
+/**
+ * Sums the weighted working sets of one muscle per calendar week.
+ * @param sets all sets
+ * @param muscle the muscle to follow
+ * @param now reference time; the last week is its week
+ * @param weeks number of weeks to list
+ * @returns weeks oldest first, 0 for weeks without training
+ */
+export function weeklyMuscleSets(sets: WorkoutSet[], muscle: Muscle, now: Date, weeks: number): WeekValue[] {
+    const totals = new Map<string, number>();
+    for (const set of workingSets(sets)) {
+        const weekStart = isoDay(mondayOf(parseDate(set.date)));
+        for (const [trained, weight] of setContributions(set.exercise)) {
+            if (trained === muscle) {
+                totals.set(weekStart, (totals.get(weekStart) ?? 0) + weight);
+            }
+        }
+    }
+    return lastWeekStarts(now, weeks).map((weekStart) => ({ weekStart, value: totals.get(weekStart) ?? 0 }));
 }
 
 /** A muscle's load relative to the most trained muscle. */

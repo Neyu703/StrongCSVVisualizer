@@ -62,10 +62,10 @@ export interface ExerciseSummary {
     lastDate: string;
 }
 
-export interface WeekCount {
+export interface WeekValue {
     /** Monday of the week, "YYYY-MM-DD". */
     weekStart: string;
-    count: number;
+    value: number;
 }
 
 export interface OverviewStats {
@@ -74,7 +74,7 @@ export interface OverviewStats {
     totalVolume: number;
     totalSeconds: number;
     /** Workouts per week from the first workout up to the current week. */
-    weeks: WeekCount[];
+    weeks: WeekValue[];
     /** Consecutive weeks with a workout up to now (an empty current week does not break it). */
     currentStreak: number;
     longestStreak: number;
@@ -264,7 +264,7 @@ export function exerciseSummaries(sets: WorkoutSet[]): ExerciseSummary[] {
  * @param now reference time; the series ends with its week
  * @returns weekly counts, empty without workouts
  */
-function weeklyCounts(workoutDates: string[], now: Date): WeekCount[] {
+function weeklyCounts(workoutDates: string[], now: Date): WeekValue[] {
     if (workoutDates.length === 0) {
         return [];
     }
@@ -275,7 +275,7 @@ function weeklyCounts(workoutDates: string[], now: Date): WeekCount[] {
     }
     return weekStarts(parseDate(workoutDates[0]), now).map((weekStart) => ({
         weekStart,
-        count: counts.get(weekStart) ?? 0,
+        value: counts.get(weekStart) ?? 0,
     }));
 }
 
@@ -284,9 +284,9 @@ function weeklyCounts(workoutDates: string[], now: Date): WeekCount[] {
  * @param weeks weekly counts
  * @returns run length per week (0 for weeks without workouts)
  */
-function runLengths(weeks: WeekCount[]): number[] {
+function runLengths(weeks: WeekValue[]): number[] {
     const runs: number[] = [];
-    weeks.forEach((week, index) => runs.push(week.count > 0 ? (runs[index - 1] ?? 0) + 1 : 0));
+    weeks.forEach((week, index) => runs.push(week.value > 0 ? (runs[index - 1] ?? 0) + 1 : 0));
     return runs;
 }
 
@@ -302,7 +302,7 @@ export function overviewStats(sets: WorkoutSet[], now: Date): OverviewStats {
         workouts.map((workout) => workout.date),
         now,
     );
-    const currentWeekIsEmpty = weeks.at(-1)?.count === 0;
+    const currentWeekIsEmpty = weeks.at(-1)?.value === 0;
     const runs = runLengths(weeks);
     return {
         workouts: workouts.length,

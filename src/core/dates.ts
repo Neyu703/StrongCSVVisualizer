@@ -56,3 +56,15 @@ export function weekStarts(first: Date, now: Date): string[] {
     }
     return weeks;
 }
+
+/**
+ * Lists the Mondays of the last weeks, ending with the week of a date.
+ * @param now any date in the last week
+ * @param weeks number of weeks to list
+ * @returns ISO days of the Mondays, oldest first
+ */
+export function lastWeekStarts(now: Date, weeks: number): string[] {
+    const first = mondayOf(now);
+    first.setDate(first.getDate() - (weeks - 1) * 7);
+    return weekStarts(first, now);
+}

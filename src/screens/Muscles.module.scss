@@ -13,6 +13,11 @@
     @include tile;
     position: relative;
     gap: 2px;
+    text-align: left;
+}
+
+.selected {
+    box-shadow: 0 0 0 2px var(--tint);
 }
 
 // Legend swatch in the heat color of the muscle; grey when untrained

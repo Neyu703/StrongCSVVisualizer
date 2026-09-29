@@ -1,4 +1,4 @@
-import { isoDay, mondayOf, parseDate, weekStarts } from "./dates";
+import { isoDay, lastWeekStarts, parseDate } from "./dates";
 import type { Workout } from "./types";
 
 const DAYS_PER_WEEK = 7;
@@ -44,9 +44,7 @@ export function trainingCalendar(workouts: Workout[], now: Date, weeks = 53): Ca
         const day = isoDay(parseDate(workout.date));
         counts.set(day, (counts.get(day) ?? 0) + 1);
     }
-    const firstWeek = mondayOf(now);
-    firstWeek.setDate(firstWeek.getDate() - (weeks - 1) * DAYS_PER_WEEK);
-    return weekStarts(firstWeek, now).map((weekStart) => ({
+    return lastWeekStarts(now, weeks).map((weekStart) => ({
         weekStart,
         days: daysOfWeek(weekStart).map((day) => ({ day, workouts: counts.get(day) ?? 0 })),
     }));
