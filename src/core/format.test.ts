@@ -8,9 +8,11 @@ import {
     formatDaysAgo,
     formatDelta,
     formatDuration,
+    formatMonth,
     formatNumber,
     formatTrend,
     formatValue,
+    formatWeekday,
     formatWeight,
     truncate,
 } from "./format";
@@ -128,5 +130,14 @@ describe("formatDaysAgo", () => {
         expect(formatDaysAgo(1)).toBe("gestern");
         expect(formatDaysAgo(53)).toBe("vor 53 Tagen");
         expect(formatDaysAgo(1234)).toBe("vor 1.234 Tagen");
+    });
+});
+
+describe("formatMonth and formatWeekday", () => {
+    it("names months from 0 (January) and weekdays from 0 (Monday) in German", () => {
+        expect(formatMonth(0)).toBe("Januar");
+        expect(formatMonth(2)).toBe("März");
+        expect(formatWeekday(0)).toBe("Montag");
+        expect(formatWeekday(6)).toBe("Sonntag");
     });
 });

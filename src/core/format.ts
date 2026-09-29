@@ -20,6 +20,10 @@ const DATE_FORMATS: Record<DateStyle, Intl.DateTimeFormat> = {
     long: new Intl.DateTimeFormat(LOCALE, { weekday: "short", day: "numeric", month: "short", year: "numeric" }),
 };
 
+const MONTH_FORMAT = new Intl.DateTimeFormat(LOCALE, { month: "long" });
+
+const WEEKDAY_FORMAT = new Intl.DateTimeFormat(LOCALE, { weekday: "long" });
+
 const COMPACT_FORMAT = new Intl.NumberFormat(LOCALE, { notation: "compact", maximumFractionDigits: 1 });
 
 const numberFormats = new Map<number, Intl.NumberFormat>();
@@ -202,4 +206,23 @@ export function formatDaysAgo(days: number): string {
         return "heute";
     }
     return days === 1 ? "gestern" : `vor ${formatNumber(days)} Tagen`;
+}
+
+/**
+ * Names a month in German.
+ * @param month 0 (January) to 11 (December)
+ * @returns e.g. "März"
+ */
+export function formatMonth(month: number): string {
+    return MONTH_FORMAT.format(new Date(2000, month, 1));
+}
+
+/**
+ * Names a weekday in German.
+ * @param weekday 0 (Monday) to 6 (Sunday)
+ * @returns e.g. "Dienstag"
+ */
+export function formatWeekday(weekday: number): string {
+    // 2024-01-01 was a Monday
+    return WEEKDAY_FORMAT.format(new Date(2024, 0, 1 + weekday));
 }

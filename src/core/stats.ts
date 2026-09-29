@@ -211,6 +211,21 @@ function bestSession(sessions: ExerciseSession[], metric: SessionMetric): Exerci
 }
 
 /**
+ * Finds the sessions that set a new best of a metric; the first session has nothing to beat and is not included.
+ * @param sessions sessions oldest first
+ * @param metric metric to compare
+ * @returns the sessions above the best of all earlier ones, oldest first
+ */
+export function recordSessions(sessions: ExerciseSession[], metric: SessionMetric): ExerciseSession[] {
+    let best = sessions[0]?.[metric] ?? 0;
+    return sessions.slice(1).filter((session) => {
+        const isRecord = session[metric] > best;
+        best = Math.max(best, session[metric]);
+        return isRecord;
+    });
+}
+
+/**
  * Builds the rep-max table: the heaviest weight lifted for at least 1..10 reps.
  * @param strengthSets working sets of a weighted exercise, oldest first
  * @returns entries for rep counts that were ever reached

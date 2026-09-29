@@ -5,6 +5,7 @@ import {
     exerciseSummaries,
     groupWorkouts,
     overviewStats,
+    recordSessions,
     workoutVolume,
 } from "./stats";
 import { makeSet } from "./testing";
@@ -76,6 +77,20 @@ describe("exerciseHistory", () => {
     it("sums distance and time for cardio and skips warm-up-only workouts", () => {
         expect(exerciseHistory(SETS, "Running")[0]).toMatchObject({ distance: 5, seconds: 1500 });
         expect(exerciseHistory(SETS, "Curl")).toEqual([]);
+    });
+});
+
+describe("recordSessions", () => {
+    it("returns the sessions that beat every earlier one, without the first session", () => {
+        const sessions = [100, 100, 105, 95, 110].map((weight, index) =>
+            exerciseHistory([makeSet({ date: `2024-01-0${index + 1} 10:00:00`, weight, reps: 1 })], "Bench Press (Barbell)")[0],
+        );
+        expect(recordSessions(sessions, "maxWeight").map((session) => session.maxWeight)).toEqual([105, 110]);
+    });
+
+    it("returns nothing for fewer than two sessions", () => {
+        expect(recordSessions([], "e1rm")).toEqual([]);
+        expect(recordSessions(exerciseHistory(SETS, "Squat (Barbell)"), "e1rm")).toEqual([]);
     });
 });
 

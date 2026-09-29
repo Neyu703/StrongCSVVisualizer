@@ -6,6 +6,7 @@ import { ListGroup, ListRow } from "../components/ListGroup";
 import { ScreenHeader } from "../components/ScreenHeader";
 import { SegmentedControl } from "../components/SegmentedControl";
 import type { SegmentOption } from "../components/SegmentedControl";
+import { StatGrid } from "../components/StatGrid";
 import { StatTile } from "../components/StatTile";
 import { CalendarHeatmap } from "../components/CalendarHeatmap";
 import { WeeklyChart } from "../components/WeeklyChart";
@@ -14,6 +15,8 @@ import { describeTrainingHabit, formatCompact, formatDaysAgo, formatNumber, form
 import { findPlateaus } from "../core/plateau";
 import { groupWorkouts, overviewStats } from "../core/stats";
 import type { WeightUnit, WorkoutSet } from "../core/types";
+import { reviewYears, yearReview } from "../core/yearReview";
+import { YearReviewDetail } from "./YearReviewDetail";
 import styles from "./Overview.module.scss";
 
 type WeekRange = "12" | "26" | "52" | "all";
@@ -36,12 +39,14 @@ interface OverviewProps {
     onSelectExercise: (exercise: string) => void;
 }
 
-/** Overview tab: key figures, weekly frequency, training calendar, stagnating lifts, CSV import and data reset. */
+/** Overview tab: key figures, weekly frequency, training calendar, stagnating lifts, year reviews, CSV import and data reset. */
 export function Overview({ sets, unit, now, showTrendlines, message, onFile, onReset, onSelectExercise }: OverviewProps) {
     const stats = useMemo(() => overviewStats(sets, now), [sets, now]);
     const workouts = useMemo(() => groupWorkouts(sets), [sets]);
     const calendar = useMemo(() => trainingCalendar(workouts, now), [workouts, now]);
     const plateaus = useMemo(() => findPlateaus(sets, now), [sets, now]);
+    const years = useMemo(() => reviewYears(sets), [sets]);
+    const [reviewedYear, setReviewedYear] = useState<number | null>(null);
     const [range, setRange] = useState<WeekRange>("26");
     const weeks = range === "all" ? stats.weeks : stats.weeks.slice(-Number(range));
     const hasData = sets.length > 0;
@@ -52,19 +57,30 @@ export function Overview({ sets, unit, now, showTrendlines, message, onFile, onR
         }
     };
 
+    if (reviewedYear !== null) {
+        return (
+            <YearReviewDetail
+                review={yearReview(sets, reviewedYear)}
+                unit={unit}
+                onBack={() => setReviewedYear(null)}
+                onSelectExercise={onSelectExercise}
+            />
+        );
+    }
+
     return (
         <>
             <ScreenHeader title="Übersicht" />
             {hasData && (
                 <>
-                    <div className={styles.tiles}>
+                    <StatGrid>
                         <StatTile label="Workouts" value={formatNumber(stats.workouts)} />
                         <StatTile label="Trainingszeit" value={`${formatNumber(stats.totalSeconds / 3600)} Std.`} />
                         <StatTile label="Gesamtvolumen" value={`${formatCompact(stats.totalVolume)} ${unit}`} />
                         <StatTile label="Arbeitssätze" value={formatNumber(stats.workingSets)} />
                         <StatTile label="Aktuelle Serie" value={`${stats.currentStreak} Wo.`} />
                         <StatTile label="Längste Serie" value={`${stats.longestStreak} Wo.`} />
-                    </div>
+                    </StatGrid>
                     <Card title="Workouts pro Woche">
                         <SegmentedControl label="Zeitraum" options={WEEK_RANGES} value={range} onChange={setRange} />
                         <WeeklyChart weeks={weeks} valueLabel="Workouts" showTrend={showTrendlines} />
@@ -88,6 +104,11 @@ export function Overview({ sets, unit, now, showTrendlines, message, onFile, onR
                             ))}
                         </ListGroup>
                     )}
+                    <ListGroup header="Jahresrückblick">
+                        {years.map((year) => (
+                            <ListRow key={year} title={String(year)} onClick={() => setReviewedYear(year)} />
+                        ))}
+                    </ListGroup>
                 </>
             )}
             <ImportCard hasData={hasData} message={message} onFile={onFile} />

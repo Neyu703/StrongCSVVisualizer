@@ -19,7 +19,7 @@ Hinweise:
 
 | Tab | Inhalt |
 | --- | --- |
-| Übersicht | Workouts, Trainingszeit, Gesamtvolumen, Arbeitssätze, Wochen-Serie, Workouts pro Woche, Trainingskalender, stagnierende Übungen, CSV-Import |
+| Übersicht | Workouts, Trainingszeit, Gesamtvolumen, Arbeitssätze, Wochen-Serie, Workouts pro Woche, Trainingskalender, stagnierende Übungen, Jahresrückblick pro Jahr, CSV-Import |
 | Verlauf | Alle Workouts (neueste zuerst) mit Sätzen, RPE und Notizen; Suche nach Workout-Name, Übung und Notizen (bei Notiz-Treffern zeigt die Zeile die Notiz); Workout-Detail vergleicht jede Übung mit dem letzten gleichnamigen Workout |
 | Übungen | Suche, Diagramm (1RM, Gewicht, Volumen, Wiederholungen; Cardio: Distanz, Dauer) mit Zeitraumfilter, Rekorde, bestes Gewicht pro Wiederholungszahl, Verlauf; bei Übungen mit RPE zusätzlich „RPE-1RM“ und „Ø RPE“ im Diagramm |
 | Rekorde | Die wichtigsten Rekorde aller Übungen, Antippen öffnet die Übung |
@@ -54,6 +54,7 @@ Gemeinsam: `Date` (`YYYY-MM-DD HH:mm:ss`) ist die Workout-Startzeit und identifi
 - **Trainingskalender**: ein Feld pro Tag der letzten 53 Wochen (Mo–So, eine Spalte pro Woche); Farbstufen für 0, 1 und 2+ Workouts. Darunter der häufigste Wochentag und die häufigste Startstunde (bei Gleichstand der frühere Wert).
 - **Workout-Vergleich**: Vorgänger ist das letzte frühere Workout mit gleichem Namen. Pro Übung mit Arbeitssätzen stehen die Änderungen der Kennzahlen (Kraft: 1RM, Gewicht, Volumen, Wdh.) gegenüber dem Vorgänger; Übungen ohne Arbeitssätze dort sind „Neu“.
 - **Stagnierende Übungen**: Kraftübungen mit mindestens 4 Einheiten in den letzten 56 Tagen, deren geschätztes 1RM per Theil-Sen-Trend (siehe Trendlinien) nicht steigt (Steigung ≤ 0); sortiert nach stärkstem Rückgang. Angezeigt werden der Trend pro Monat und wann das beste 1RM erreicht wurde.
+- **Jahresrückblick**: pro Kalenderjahr mit Workouts: Workouts, Trainingszeit, Volumen, Arbeitssätze, längste Wochen-Serie innerhalb des Jahres (Wochen mit mindestens einem Workout in diesem Jahr), Top-5-Übungen nach Anzahl Workouts, neue 1RM-Rekorde (Sessions, die alle früheren übertreffen – die erste Session einer Übung zählt nicht), stärkster Monat nach Volumen und häufigster Wochentag.
 - **Muskeln**: Zuordnung über Schlüsselwörter im Übungsnamen (`src/core/muscles.ts`); Hauptmuskeln zählen pro Satz 1, Hilfsmuskeln 0,5. Unbekannte Übungen und Cardio zählen nicht.
 - **Sätze pro Woche**: gewichtete Arbeitssätze eines Muskels je Kalenderwoche (Mo–So), Zielband 10–20 Sätze (`WEEKLY_SET_TARGET` in `src/core/muscles.ts`); die Trendlinie ist wie bei den Workouts pro Woche eine Regression nach kleinsten Quadraten.
 - **3D-Modell**: Die Farbe ist die Belastung relativ zum am stärksten trainierten Muskel im gewählten Zeitraum (`withIntensity`, Skala in `src/core/heat.ts`); nicht trainierte oder von der App nicht erfasste Muskeln bleiben grau. Das Modell ist ein fertiges Anatomie-Modell (GLB, ein Mesh pro Muskel), das mit Three.js gerendert wird (`src/components/bodyScene.ts`). Jeder Modellmuskel wird über seine Trainingsgruppe einer der 16 App-Muskelgruppen zugeordnet (`src/core/anatomy.ts`, z. B. Chest → Brust; Gluteus medius/minimus und TFL → Abduktoren). Ein Test prüft gegen beide mitgelieferten Maps, dass jede Modellgruppe zugeordnet oder bewusst ausgelassen ist (Nacken, Sartorius, Hüftbeuger, Hüftrotatoren, Unterschenkel) und jede App-Muskelgruppe Meshes hat. Ohne WebGL erscheint ein Hinweis, die Liste darunter bleibt nutzbar.
@@ -71,6 +72,7 @@ src/core/         Reine Logik ohne React/DOM, jede Datei mit *.test.ts
   calendar.ts       Trainingskalender, häufigster Wochentag/Startstunde
   compare.ts        Vorheriges gleichnamiges Workout, Vergleich pro Übung
   plateau.ts        Stagnierende Übungen
+  yearReview.ts     Jahresrückblick
   search.ts         Suche in Workout-Namen, Übungen und Notizen
   muscles.ts        Muskel-Mapping, -Belastung und relative Intensität
   anatomy.ts        Zuordnung Modellmuskel → App-Muskelgruppe; heat.ts: Farbskala
