@@ -8,6 +8,8 @@ export interface CalendarDay {
     /** "YYYY-MM-DD". */
     day: string;
     workouts: number;
+    /** True for days after today, which cannot have workouts yet. */
+    future: boolean;
 }
 
 /** One calendar week, Monday to Sunday. */
@@ -44,9 +46,10 @@ export function trainingCalendar(workouts: Workout[], now: Date, weeks = 53): Ca
         const day = isoDay(parseDate(workout.date));
         counts.set(day, (counts.get(day) ?? 0) + 1);
     }
+    const today = isoDay(now);
     return lastWeekStarts(now, weeks).map((weekStart) => ({
         weekStart,
-        days: daysOfWeek(weekStart).map((day) => ({ day, workouts: counts.get(day) ?? 0 })),
+        days: daysOfWeek(weekStart).map((day) => ({ day, workouts: counts.get(day) ?? 0, future: day > today })),
     }));
 }
 

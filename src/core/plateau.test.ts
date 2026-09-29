@@ -25,6 +25,11 @@ describe("findPlateaus", () => {
         expect(plateau.daysSinceBest).toBe(53);
     });
 
+    it("counts calendar days since the best session, not elapsed 24-hour periods", () => {
+        const [plateau] = findPlateaus(weekly([100, 100, 100, 100, 100, 100]), new Date(2024, 2, 1, 9));
+        expect(plateau.daysSinceBest).toBe(53);
+    });
+
     it("reports a falling 1RM", () => {
         const [plateau] = findPlateaus(weekly([100, 100, 100, 97.5, 95, 92.5]), NOW);
         expect(plateau.slopePerDay).toBeLessThan(0);

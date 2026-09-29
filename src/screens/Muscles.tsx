@@ -83,7 +83,7 @@ export function Muscles({ sets, now, model, showTrendlines }: MusclesProps) {
                     </div>
                     {selected && (
                         <Card title={`${selected}: Sätze pro Woche`}>
-                            <SegmentedControl label="Zeitraum" options={WEEK_RANGES} value={range} onChange={setRange} />
+                            <SegmentedControl label="Zeitraum Wochenverlauf" options={WEEK_RANGES} value={range} onChange={setRange} />
                             <WeeklyChart weeks={weeks} valueLabel="Sätze" showTrend={showTrendlines} band={WEEKLY_SET_TARGET} />
                             <p className={styles.footer}>
                                 Grün hinterlegt: {WEEKLY_SET_TARGET[0]}–{WEEKLY_SET_TARGET[1]} Sätze pro Woche.

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import type { CalendarWeek } from "../core/calendar";
+import type { CalendarDay, CalendarWeek } from "../core/calendar";
 import { formatDate } from "../core/format";
 import styles from "./CalendarHeatmap.module.scss";
 
@@ -8,11 +8,14 @@ interface CalendarHeatmapProps {
 }
 
 /**
- * Picks the style of a day cell by its workout count.
- * @param workouts workouts started that day
- * @returns CSS class name, empty days keep the base style
+ * Picks the style of a day cell.
+ * @param day the calendar day
+ * @returns CSS class names; days without workouts keep the base style, future days are left blank
  */
-function levelClass(workouts: number): string {
+function levelClass({ workouts, future }: CalendarDay): string {
+    if (future) {
+        return `${styles.day} ${styles.future}`;
+    }
     if (workouts === 0) {
         return styles.day;
     }
@@ -32,11 +35,11 @@ export function CalendarHeatmap({ weeks }: CalendarHeatmapProps) {
         <div ref={scroller} className={styles.scroller}>
             <div className={styles.grid} role="img" aria-label="Trainingstage der letzten Wochen">
                 {weeks.flatMap((week) =>
-                    week.days.map(({ day, workouts }) => (
+                    week.days.map((calendarDay) => (
                         <span
-                            key={day}
-                            className={levelClass(workouts)}
-                            title={`${formatDate(`${day} 00:00:00`, "medium")}: ${workouts} Workout${workouts === 1 ? "" : "s"}`}
+                            key={calendarDay.day}
+                            className={levelClass(calendarDay)}
+                            title={`${formatDate(`${calendarDay.day} 00:00:00`, "medium")}: ${calendarDay.workouts} Workout${calendarDay.workouts === 1 ? "" : "s"}`}
                         />
                     )),
                 )}

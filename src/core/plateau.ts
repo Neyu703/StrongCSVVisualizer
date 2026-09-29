@@ -1,4 +1,4 @@
-import { MS_PER_DAY, daysBefore, parseDate } from "./dates";
+import { MS_PER_DAY, daysBefore, daysBetween, parseDate } from "./dates";
 import { exerciseRecords, exerciseSummaries } from "./stats";
 import { addTrend } from "./trend";
 import type { WorkoutSet } from "./types";
@@ -13,7 +13,7 @@ export interface Plateau {
     exercise: string;
     /** Fitted 1RM change per day over the window, zero or negative. */
     slopePerDay: number;
-    /** Whole days since the session that set the best 1RM. */
+    /** Calendar days since the session that set the best 1RM. */
     daysSinceBest: number;
 }
 
@@ -43,7 +43,7 @@ export function findPlateaus(sets: WorkoutSet[], now: Date): Plateau[] {
                 {
                     exercise: name,
                     slopePerDay: trend.slope,
-                    daysSinceBest: Math.floor((now.getTime() - parseDate(best.date).getTime()) / MS_PER_DAY),
+                    daysSinceBest: daysBetween(parseDate(best.date), now),
                 },
             ];
         })

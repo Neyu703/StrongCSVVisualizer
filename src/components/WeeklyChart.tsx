@@ -37,7 +37,7 @@ export function WeeklyChart({ weeks, valueLabel, showTrend, band }: WeeklyChartP
                     tickFormatter={formatWeek}
                     minTickGap={32}
                 />
-                <YAxis width={28} {...Y_AXIS_PROPS} allowDecimals={weeks.some((week) => !Number.isInteger(week.value))} domain={[0, "auto"]} />
+                <YAxis width={28} {...Y_AXIS_PROPS} allowDecimals={weeks.some((week) => !Number.isInteger(week.value))} domain={[0, "auto"]} tickFormatter={(value: number) => formatNumber(value, 1)} />
                 <Tooltip
                     cursor={{ fill: "var(--fill)" }}
                     contentStyle={TOOLTIP_STYLE}

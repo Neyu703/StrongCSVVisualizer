@@ -47,6 +47,7 @@ export function Overview({ sets, unit, now, showTrendlines, message, onFile, onR
     const plateaus = useMemo(() => findPlateaus(sets, now), [sets, now]);
     const years = useMemo(() => reviewYears(sets), [sets]);
     const [reviewedYear, setReviewedYear] = useState<number | null>(null);
+    const review = useMemo(() => (reviewedYear === null ? null : yearReview(sets, reviewedYear)), [sets, reviewedYear]);
     const [range, setRange] = useState<WeekRange>("26");
     const weeks = range === "all" ? stats.weeks : stats.weeks.slice(-Number(range));
     const hasData = sets.length > 0;
@@ -57,10 +58,10 @@ export function Overview({ sets, unit, now, showTrendlines, message, onFile, onR
         }
     };
 
-    if (reviewedYear !== null) {
+    if (review !== null) {
         return (
             <YearReviewDetail
-                review={yearReview(sets, reviewedYear)}
+                review={review}
                 unit={unit}
                 onBack={() => setReviewedYear(null)}
                 onSelectExercise={onSelectExercise}

@@ -12,6 +12,9 @@ const LOCALE = "de-DE";
 
 const DAYS_PER_MONTH = 30.44;
 
+/** Fraction digits with which each format shows a value; a change below that precision counts as none. */
+const DELTA_DECIMALS: Record<ValueFormat, number> = { weight: 1, reps: 1, distance: 2, time: 0, rpe: 1 };
+
 const WEEKDAYS_SHORT = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
 
 const DATE_FORMATS: Record<DateStyle, Intl.DateTimeFormat> = {
@@ -105,7 +108,7 @@ export function formatValue(format: ValueFormat, value: number, unit: WeightUnit
         case "time":
             return formatDuration(value);
         case "rpe":
-            return `RPE ${formatNumber(value, 1)}`;
+            return `${formatNumber(value, 1)} RPE`;
     }
 }
 
@@ -128,13 +131,15 @@ export function formatTrend(slopePerDay: number, format: ValueFormat, unit: Weig
  * @returns display text
  */
 export function formatDelta(format: ValueFormat, delta: number, unit: WeightUnit): string {
+    const scale = 10 ** DELTA_DECIMALS[format];
+    const rounded = Math.round(delta * scale) / scale;
     let sign = "±";
-    if (delta > 0) {
+    if (rounded > 0) {
         sign = "+";
-    } else if (delta < 0) {
+    } else if (rounded < 0) {
         sign = "−";
     }
-    return `${sign}${formatValue(format, Math.abs(delta), unit)}`;
+    return `${sign}${formatValue(format, Math.abs(rounded), unit)}`;
 }
 
 /**

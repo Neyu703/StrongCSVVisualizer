@@ -4,9 +4,8 @@
     gap: 2px;
     background: var(--fill);
     border-radius: var(--radius-control);
-    // Many options may not fit a narrow screen; scroll instead of overflowing the card
-    overflow-x: auto;
-    scrollbar-width: none;
+    // Many options may not fit a narrow screen; wrap instead of overflowing the card
+    flex-wrap: wrap;
 }
 
 .segment {

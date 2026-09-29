@@ -59,7 +59,7 @@ describe("formatValue", () => {
         expect(formatValue("reps", 8, "kg")).toBe("8 Wdh.");
         expect(formatValue("distance", 3.724, "kg")).toBe("3,72 km");
         expect(formatValue("time", 1500, "kg")).toBe("25 Min.");
-        expect(formatValue("rpe", 8.5, "kg")).toBe("RPE 8,5");
+        expect(formatValue("rpe", 8.5, "kg")).toBe("8,5 RPE");
     });
 });
 
@@ -117,10 +117,19 @@ describe("formatDelta", () => {
         expect(formatDelta("weight", -10, "lb")).toBe("−10 lb");
         expect(formatDelta("reps", -1, "kg")).toBe("−1 Wdh.");
         expect(formatDelta("time", 300, "kg")).toBe("+5 Min.");
+        expect(formatDelta("rpe", 0.25, "kg")).toBe("+0,3 RPE");
     });
 
     it("shows no change as ±0", () => {
         expect(formatDelta("weight", 0, "kg")).toBe("±0 kg");
+    });
+
+    it("shows a change that rounds to zero as ±0 instead of +0 or −0", () => {
+        expect(formatDelta("weight", 0.03, "kg")).toBe("±0 kg");
+        expect(formatDelta("weight", -0.04, "kg")).toBe("±0 kg");
+        expect(formatDelta("distance", 0.004, "kg")).toBe("±0 km");
+        expect(formatDelta("time", 0.4, "kg")).toBe("±0 Sek.");
+        expect(formatTrend(-0.001, "weight", "kg")).toBe("Trend: ±0 kg pro Monat");
     });
 });
 

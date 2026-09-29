@@ -9,8 +9,12 @@ export const METRICS_BY_KIND: Record<ExerciseKind, SessionMetric[]> = {
     cardio: ["distance", "seconds"],
 };
 
-/** Metrics that exist only for exercises logged with an RPE; shown in the chart picker when there is data. */
-export const OPTIONAL_METRICS: SessionMetric[] = ["e1rmRpe", "avgRpe"];
+/** RPE metrics per exercise kind, offered in the chart picker only when the exercise has RPE data. */
+export const OPTIONAL_METRICS_BY_KIND: Record<ExerciseKind, SessionMetric[]> = {
+    strength: ["e1rmRpe", "avgRpe"],
+    reps: ["avgRpe"],
+    cardio: ["avgRpe"],
+};
 
 export const METRIC_LABELS: Record<SessionMetric, string> = {
     e1rm: "1RM",

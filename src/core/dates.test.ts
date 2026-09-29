@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { daysBefore, isoDay, lastWeekStarts, mondayOf, parseDate, weekStarts } from "./dates";
+import { daysBefore, daysBetween, isoDay, lastWeekStarts, mondayOf, parseDate, weekStarts } from "./dates";
 
 describe("dates", () => {
     it("computes the start of a day-based time window", () => {
@@ -31,6 +31,12 @@ describe("dates", () => {
 
     it("lists a single week when both dates share it", () => {
         expect(weekStarts(parseDate("2024-03-04 00:00:00"), parseDate("2024-03-10 23:00:00"))).toEqual(["2024-03-04"]);
+    });
+
+    it("counts calendar days between two times, regardless of the clock time", () => {
+        expect(daysBetween(parseDate("2024-01-08 18:00:00"), parseDate("2024-01-09 10:00:00"))).toBe(1);
+        expect(daysBetween(parseDate("2024-01-08 10:00:00"), parseDate("2024-01-08 23:00:00"))).toBe(0);
+        expect(daysBetween(parseDate("2024-03-30 12:00:00"), parseDate("2024-04-01 12:00:00"))).toBe(2);
     });
 
     it("lists the Mondays of the last weeks ending with the current one", () => {

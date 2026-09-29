@@ -68,3 +68,14 @@ export function lastWeekStarts(now: Date, weeks: number): string[] {
     first.setDate(first.getDate() - (weeks - 1) * 7);
     return weekStarts(first, now);
 }
+
+/**
+ * Counts the calendar days from one time to another, ignoring the clock time.
+ * @param from earlier time
+ * @param to later time
+ * @returns whole calendar days (rounded, so a daylight-saving hour does not matter)
+ */
+export function daysBetween(from: Date, to: Date): number {
+    const startOfDay = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
+    return Math.round((startOfDay(to) - startOfDay(from)) / MS_PER_DAY);
+}

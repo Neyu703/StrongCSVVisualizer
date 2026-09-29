@@ -32,6 +32,11 @@ describe("trainingCalendar", () => {
         ]);
     });
 
+    it("marks the days after today as future", () => {
+        expect(calendar[1].days.map((day) => day.future)).toEqual([false, false, false, true, true, true, true]);
+        expect(calendar[0].days.some((day) => day.future)).toBe(false);
+    });
+
     it("defaults to 53 weeks", () => {
         expect(trainingCalendar([], parseDate("2024-03-20 09:00:00"))).toHaveLength(53);
     });
