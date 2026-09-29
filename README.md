@@ -88,3 +88,7 @@ npm run build   # tsc + Vite (Single-File) → dist/index.html → StrongPro.htm
 ```
 
 Nur nach Code-Änderungen ist ein Build nötig; zur Nutzung reicht `StrongPro.html`. Stack: React 19, TypeScript, SCSS (CSS Modules), Recharts, Three.js, Vite mit `vite-plugin-singlefile`.
+
+## Lizenz
+
+Der Code steht unter der [PolyForm Noncommercial License 1.0.0](LICENSE): Nutzung, Änderung und Weitergabe sind erlaubt, kommerzielle Nutzung nicht. Die 3D-Modelle in `assets/anatomy/` stammen von Dritten und stehen unter CC BY-SA 4.0 (das erlaubt kommerzielle Nutzung), siehe [NOTICE](assets/anatomy/NOTICE.md).

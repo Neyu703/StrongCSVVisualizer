@@ -1,7 +1,8 @@
 {
     "name": "strong-pro",
     "private": true,
-    "version": "1.0.0",
+    "version": "1.0.1",
+    "license": "SEE LICENSE IN LICENSE",
     "type": "module",
     "scripts": {
         "build": "tsc && vite build && node scripts/publish.mjs",
