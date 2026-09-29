@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
     describeImport,
     describeSet,
+    describeTrainingHabit,
     formatCompact,
     formatDate,
     formatDuration,
@@ -80,5 +81,18 @@ describe("describeImport", () => {
         expect(describeImport(0, 0)).toContain("Keine neuen Workouts");
         expect(describeImport(1, 12)).toBe("1 neues Workout (12 Sätze) hinzugefügt.");
         expect(describeImport(196, 2449)).toBe("196 neue Workouts (2.449 Sätze) hinzugefügt.");
+    });
+});
+
+describe("describeTrainingHabit", () => {
+    it("names the usual weekday and hour window", () => {
+        expect(describeTrainingHabit(1, 18)).toBe("Meist Di · meist 18–19 Uhr");
+        expect(describeTrainingHabit(6, 23)).toBe("Meist So · meist 23–24 Uhr");
+    });
+
+    it("is empty without workouts", () => {
+        expect(describeTrainingHabit(null, null)).toBe("");
+        expect(describeTrainingHabit(1, null)).toBe("");
+        expect(describeTrainingHabit(null, 18)).toBe("");
     });
 });

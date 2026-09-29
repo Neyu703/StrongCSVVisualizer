@@ -40,3 +40,19 @@ export function isoDay(date: Date): string {
     const day = String(date.getDate()).padStart(2, "0");
     return `${date.getFullYear()}-${month}-${day}`;
 }
+
+/**
+ * Lists the Mondays of all weeks from the week of one date up to the week of another.
+ * @param first any date in the first week
+ * @param now any date in the last week
+ * @returns ISO days of the Mondays, oldest first
+ */
+export function weekStarts(first: Date, now: Date): string[] {
+    const weeks: string[] = [];
+    const lastWeek = mondayOf(now);
+    const cursor = mondayOf(first);
+    for (; cursor <= lastWeek; cursor.setDate(cursor.getDate() + 7)) {
+        weeks.push(isoDay(cursor));
+    }
+    return weeks;
+}

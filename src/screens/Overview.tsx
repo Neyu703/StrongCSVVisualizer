@@ -7,9 +7,11 @@ import { ScreenHeader } from "../components/ScreenHeader";
 import { SegmentedControl } from "../components/SegmentedControl";
 import type { SegmentOption } from "../components/SegmentedControl";
 import { StatTile } from "../components/StatTile";
+import { CalendarHeatmap } from "../components/CalendarHeatmap";
 import { WeeklyChart } from "../components/WeeklyChart";
-import { formatCompact, formatNumber } from "../core/format";
-import { overviewStats } from "../core/stats";
+import { busiestHour, busiestWeekday, trainingCalendar } from "../core/calendar";
+import { describeTrainingHabit, formatCompact, formatNumber } from "../core/format";
+import { groupWorkouts, overviewStats } from "../core/stats";
 import type { WeightUnit, WorkoutSet } from "../core/types";
 import styles from "./Overview.module.scss";
 
@@ -35,6 +37,8 @@ interface OverviewProps {
 /** Overview tab: key figures, weekly frequency, CSV import and data reset. */
 export function Overview({ sets, unit, now, showTrendlines, message, onFile, onReset }: OverviewProps) {
     const stats = useMemo(() => overviewStats(sets, now), [sets, now]);
+    const workouts = useMemo(() => groupWorkouts(sets), [sets]);
+    const calendar = useMemo(() => trainingCalendar(workouts, now), [workouts, now]);
     const [range, setRange] = useState<WeekRange>("26");
     const weeks = range === "all" ? stats.weeks : stats.weeks.slice(-Number(range));
     const hasData = sets.length > 0;
@@ -61,6 +65,10 @@ export function Overview({ sets, unit, now, showTrendlines, message, onFile, onR
                     <Card title="Workouts pro Woche">
                         <SegmentedControl label="Zeitraum" options={WEEK_RANGES} value={range} onChange={setRange} />
                         <WeeklyChart weeks={weeks} showTrend={showTrendlines} />
+                    </Card>
+                    <Card title="Trainingskalender">
+                        <CalendarHeatmap weeks={calendar} />
+                        <p className={styles.caption}>{describeTrainingHabit(busiestWeekday(workouts), busiestHour(workouts))}</p>
                     </Card>
                 </>
             )}

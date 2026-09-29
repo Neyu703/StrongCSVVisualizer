@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { daysBefore, isoDay, mondayOf, parseDate } from "./dates";
+import { daysBefore, isoDay, mondayOf, parseDate, weekStarts } from "./dates";
 
 describe("dates", () => {
     it("computes the start of a day-based time window", () => {
@@ -19,5 +19,17 @@ describe("dates", () => {
 
     it("zero-pads month and day", () => {
         expect(isoDay(new Date(2024, 0, 2))).toBe("2024-01-02");
+    });
+
+    it("lists the Mondays from the first date's week up to the current week", () => {
+        expect(weekStarts(parseDate("2024-03-06 12:00:00"), parseDate("2024-03-20 09:00:00"))).toEqual([
+            "2024-03-04",
+            "2024-03-11",
+            "2024-03-18",
+        ]);
+    });
+
+    it("lists a single week when both dates share it", () => {
+        expect(weekStarts(parseDate("2024-03-04 00:00:00"), parseDate("2024-03-10 23:00:00"))).toEqual(["2024-03-04"]);
     });
 });

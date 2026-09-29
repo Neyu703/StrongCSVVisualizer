@@ -1,4 +1,4 @@
-import type { WorkoutSet } from "./types";
+import type { Workout, WorkoutSet } from "./types";
 
 /** Header line of the legacy (unit-less) Strong export. */
 export const LEGACY_HEADER =
@@ -25,4 +25,13 @@ export function makeSet(overrides: Partial<WorkoutSet> = {}): WorkoutSet {
         workoutNotes: "",
         ...overrides,
     };
+}
+
+/**
+ * Builds a workout with sensible defaults for tests.
+ * @param overrides fields to change
+ * @returns a complete workout
+ */
+export function makeWorkout(overrides: Partial<Workout> = {}): Workout {
+    return { date: "2024-01-01 10:00:00", name: "Push", duration: 3600, notes: "", exercises: [], ...overrides };
 }

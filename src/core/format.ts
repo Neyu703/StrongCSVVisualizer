@@ -12,6 +12,8 @@ const LOCALE = "de-DE";
 
 const DAYS_PER_MONTH = 30.44;
 
+const WEEKDAYS_SHORT = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
+
 const DATE_FORMATS: Record<DateStyle, Intl.DateTimeFormat> = {
     short: new Intl.DateTimeFormat(LOCALE, { day: "2-digit", month: "2-digit", year: "2-digit" }),
     medium: new Intl.DateTimeFormat(LOCALE, { day: "2-digit", month: "2-digit", year: "numeric" }),
@@ -153,4 +155,17 @@ export function describeImport(addedWorkouts: number, addedSets: number): string
     }
     const workouts = addedWorkouts === 1 ? "1 neues Workout" : `${formatNumber(addedWorkouts)} neue Workouts`;
     return `${workouts} (${formatNumber(addedSets)} Sätze) hinzugefügt.`;
+}
+
+/**
+ * Describes when the user usually trains, e.g. "Meist Di · meist 18–19 Uhr".
+ * @param weekday 0 (Monday) to 6 (Sunday), null without workouts
+ * @param hour start hour 0 to 23, null without workouts
+ * @returns display text, empty without workouts
+ */
+export function describeTrainingHabit(weekday: number | null, hour: number | null): string {
+    if (weekday === null || hour === null) {
+        return "";
+    }
+    return `Meist ${WEEKDAYS_SHORT[weekday]} · meist ${hour}–${hour + 1} Uhr`;
 }

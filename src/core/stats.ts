@@ -1,4 +1,4 @@
-import { isoDay, mondayOf, parseDate } from "./dates";
+import { isoDay, mondayOf, parseDate, weekStarts } from "./dates";
 import { estimate1RM, exerciseKind, groupBy, setVolume, workingSets } from "./sets";
 import type { ExerciseKind } from "./sets";
 import type { Workout, WorkoutSet } from "./types";
@@ -273,14 +273,10 @@ function weeklyCounts(workoutDates: string[], now: Date): WeekCount[] {
         const week = isoDay(mondayOf(parseDate(date)));
         counts.set(week, (counts.get(week) ?? 0) + 1);
     }
-    const weeks: WeekCount[] = [];
-    const lastWeek = mondayOf(now);
-    const cursor = mondayOf(parseDate(workoutDates[0]));
-    for (; cursor <= lastWeek; cursor.setDate(cursor.getDate() + 7)) {
-        const weekStart = isoDay(cursor);
-        weeks.push({ weekStart, count: counts.get(weekStart) ?? 0 });
-    }
-    return weeks;
+    return weekStarts(parseDate(workoutDates[0]), now).map((weekStart) => ({
+        weekStart,
+        count: counts.get(weekStart) ?? 0,
+    }));
 }
 
 /**
