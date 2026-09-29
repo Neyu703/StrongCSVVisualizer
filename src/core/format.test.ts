@@ -57,6 +57,7 @@ describe("formatValue", () => {
         expect(formatValue("reps", 8, "kg")).toBe("8 Wdh.");
         expect(formatValue("distance", 3.724, "kg")).toBe("3,72 km");
         expect(formatValue("time", 1500, "kg")).toBe("25 Min.");
+        expect(formatValue("rpe", 8.5, "kg")).toBe("RPE 8,5");
     });
 });
 

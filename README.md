@@ -21,7 +21,7 @@ Hinweise:
 | --- | --- |
 | Übersicht | Workouts, Trainingszeit, Gesamtvolumen, Arbeitssätze, Wochen-Serie, Workouts pro Woche, Trainingskalender, stagnierende Übungen, CSV-Import |
 | Verlauf | Alle Workouts (neueste zuerst) mit Sätzen, RPE und Notizen; Suche nach Workout-Name, Übung und Notizen (bei Notiz-Treffern zeigt die Zeile die Notiz); Workout-Detail vergleicht jede Übung mit dem letzten gleichnamigen Workout |
-| Übungen | Suche, Diagramm (1RM, Gewicht, Volumen, Wiederholungen; Cardio: Distanz, Dauer) mit Zeitraumfilter, Rekorde, bestes Gewicht pro Wiederholungszahl, Verlauf |
+| Übungen | Suche, Diagramm (1RM, Gewicht, Volumen, Wiederholungen; Cardio: Distanz, Dauer) mit Zeitraumfilter, Rekorde, bestes Gewicht pro Wiederholungszahl, Verlauf; bei Übungen mit RPE zusätzlich „RPE-1RM“ und „Ø RPE“ im Diagramm |
 | Rekorde | Die wichtigsten Rekorde aller Übungen, Antippen öffnet die Übung |
 | Muskeln | Drehbares anatomisches 3D-Modell (Vorne/Hinten) mit 200+ einzelnen Muskeln, nach Belastung gelb → orange → rot eingefärbt; Details per Darüberfahren/Tippen; Liste mit Sätzen pro Muskel (7, 30, 90 Tage); Antippen eines Muskels zeigt die Sätze pro Woche (12, 26 oder 52 Wochen) mit Zielband und Trendlinie |
 | Einstellungen | Schalter „Trendlinien“ für alle Diagramme (Standard: an) und Wahl des 3D-Modells männlich/weiblich (Standard: männlich); beides wird gespeichert |
@@ -42,6 +42,7 @@ Gemeinsam: `Date` (`YYYY-MM-DD HH:mm:ss`) ist die Workout-Startzeit und identifi
 ## Berechnungen
 
 - **1RM**: Epley, `Gewicht × (1 + Wdh / 30)`; bei 1 Wiederholung das Gewicht selbst.
+- **RPE-1RM**: Epley mit den Wiederholungen in Reserve als Zuschlag, `Gewicht × (1 + (Wdh + 10 − RPE) / 30)`; nur für Sätze mit RPE 6–10, sonst 0. Je Workout zählt der beste Satz, „Ø RPE“ ist der Mittelwert aller Arbeitssätze mit RPE. Beide Kennzahlen erscheinen nur bei Übungen mit RPE-Werten, Workouts ohne RPE fehlen im Diagramm; Rekorde bleiben beim normalen 1RM.
 - **Volumen**: `Gewicht × Wdh`. Aufwärmsätze (`W`) und Assisted-Übungen (Gewicht = Gegengewicht) zählen nicht.
 - **Übungsart**: Kraft (mit Gewicht), Wiederholungen (Körpergewicht, Assisted), Cardio (kein Gewicht, keine Wdh.).
 - **Rekorde**: pro Workout die besten Werte der Arbeitssätze; bei Gleichstand gilt das früheste Datum. Rep-Max-Tabelle: schwerstes Gewicht mit mindestens 1–10 Wiederholungen.

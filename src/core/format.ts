@@ -3,7 +3,7 @@ import { isAssisted } from "./sets";
 import type { WeightUnit, WorkoutSet } from "./types";
 
 /** How a numeric value is shown. */
-export type ValueFormat = "weight" | "reps" | "distance" | "time";
+export type ValueFormat = "weight" | "reps" | "distance" | "time" | "rpe";
 
 /** Named date layouts. */
 export type DateStyle = "short" | "medium" | "long";
@@ -85,7 +85,7 @@ export function formatDate(value: string | number, style: DateStyle): string {
 
 /**
  * Formats a value according to its format.
- * @param format weight, reps, distance (km) or time
+ * @param format weight, reps, distance (km), time or RPE
  * @param value the number
  * @param unit weight unit
  * @returns display text
@@ -100,6 +100,8 @@ export function formatValue(format: ValueFormat, value: number, unit: WeightUnit
             return `${formatNumber(value, 2)} km`;
         case "time":
             return formatDuration(value);
+        case "rpe":
+            return `RPE ${formatNumber(value, 1)}`;
     }
 }
 

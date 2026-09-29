@@ -4,12 +4,15 @@
     gap: 2px;
     background: var(--fill);
     border-radius: var(--radius-control);
+    // Many options may not fit a narrow screen; scroll instead of overflowing the card
+    overflow-x: auto;
+    scrollbar-width: none;
 }
 
 .segment {
     flex: 1;
     min-height: 28px;
-    padding: 0 8px;
+    padding: 0 4px;
     border-radius: 7px;
     font-size: 13px;
     font-weight: 500;

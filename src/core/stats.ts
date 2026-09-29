@@ -1,5 +1,5 @@
 import { isoDay, mondayOf, parseDate, weekStarts } from "./dates";
-import { estimate1RM, exerciseKind, groupBy, setVolume, workingSets } from "./sets";
+import { estimate1RM, estimate1RMFromRPE, exerciseKind, groupBy, setVolume, workingSets } from "./sets";
 import type { ExerciseKind } from "./sets";
 import type { Workout, WorkoutSet } from "./types";
 
@@ -7,6 +7,10 @@ import type { Workout, WorkoutSet } from "./types";
 export interface ExerciseSession {
     date: string;
     e1rm: number;
+    /** Best 1RM estimate that counts reps in reserve from the RPE; 0 when no set has an RPE. */
+    e1rmRpe: number;
+    /** Average RPE of the sets that have one; 0 when none does. */
+    avgRpe: number;
     maxWeight: number;
     volume: number;
     bestSetVolume: number;
@@ -156,9 +160,12 @@ function setsOf(sets: WorkoutSet[], exercise: string): WorkoutSet[] {
  */
 export function sessionOf(date: string, sessionSets: WorkoutSet[]): ExerciseSession {
     const volumes = sessionSets.map(setVolume);
+    const rpes = sessionSets.flatMap((set) => (set.rpe === null ? [] : [set.rpe]));
     return {
         date,
         e1rm: Math.max(...sessionSets.map((set) => estimate1RM(set.weight, set.reps))),
+        e1rmRpe: Math.max(...sessionSets.map((set) => estimate1RMFromRPE(set.weight, set.reps, set.rpe))),
+        avgRpe: rpes.length === 0 ? 0 : sum(rpes) / rpes.length,
         maxWeight: Math.max(...sessionSets.map((set) => set.weight)),
         volume: sum(volumes),
         bestSetVolume: Math.max(...volumes),

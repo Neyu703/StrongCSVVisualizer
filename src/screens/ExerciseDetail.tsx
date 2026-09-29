@@ -11,7 +11,7 @@ import { exerciseRecords } from "../core/stats";
 import type { SessionMetric } from "../core/stats";
 import { addTrend } from "../core/trend";
 import type { WeightUnit, WorkoutSet } from "../core/types";
-import { METRIC_FORMATS, METRIC_LABELS, METRICS_BY_KIND, RECORD_LABELS } from "../labels";
+import { METRIC_FORMATS, METRIC_LABELS, METRICS_BY_KIND, OPTIONAL_METRICS, RECORD_LABELS } from "../labels";
 import styles from "./ExerciseDetail.module.scss";
 
 type ChartRange = "90" | "180" | "365" | "all";
@@ -36,14 +36,19 @@ interface ExerciseDetailProps {
 export function ExerciseDetail({ sets, exercise, unit, now, showTrendlines, onBack }: ExerciseDetailProps) {
     const { kind, sessions, records, repMax } = useMemo(() => exerciseRecords(sets, exercise), [sets, exercise]);
 
-    const metrics = METRICS_BY_KIND[kind];
+    const metrics = [
+        ...METRICS_BY_KIND[kind],
+        ...OPTIONAL_METRICS.filter((optional) => sessions.some((session) => session[optional] > 0)),
+    ];
     const [metric, setMetric] = useState<SessionMetric>(metrics[0]);
     const [range, setRange] = useState<ChartRange>("all");
 
     const cutoff = range === "all" ? 0 : daysBefore(now, Number(range));
+    // Sessions without an RPE have no value for the RPE metrics, so they are left out instead of plotted as 0
+    const skipsZero = OPTIONAL_METRICS.includes(metric);
     const points = sessions
         .map((session) => ({ time: parseDate(session.date).getTime(), value: session[metric] }))
-        .filter((point) => point.time >= cutoff);
+        .filter((point) => point.time >= cutoff && (!skipsZero || point.value > 0));
     const trend = showTrendlines
         ? addTrend(points, { x: (point) => point.time / MS_PER_DAY, y: (point) => point.value }, "theil-sen")
         : null;

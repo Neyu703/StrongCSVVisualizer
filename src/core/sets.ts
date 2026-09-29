@@ -77,6 +77,23 @@ export function estimate1RM(weight: number, reps: number): number {
     return reps === 1 ? weight : weight * (1 + reps / 30);
 }
 
+const MIN_RPE = 6;
+const MAX_RPE = 10;
+
+/**
+ * Epley one-rep-max estimate that counts the reps left in reserve (10 − RPE) as if they had been performed.
+ * @param weight lifted weight
+ * @param reps repetitions
+ * @param rpe rate of perceived exertion of the set, null when not logged
+ * @returns estimated 1RM, 0 without reps or without an RPE between 6 and 10
+ */
+export function estimate1RMFromRPE(weight: number, reps: number, rpe: number | null): number {
+    if (rpe === null || rpe < MIN_RPE || rpe > MAX_RPE || reps <= 0) {
+        return 0;
+    }
+    return estimate1RM(weight, reps + MAX_RPE - rpe);
+}
+
 /**
  * Volume of one set (weight × reps); warm-ups and assisted counterweights do not count.
  * @param set the set

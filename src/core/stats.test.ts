@@ -55,6 +55,24 @@ describe("exerciseHistory", () => {
         expect(history[1].e1rm).toBeCloseTo(115.5);
     });
 
+    it("derives the RPE-based 1RM and the average RPE from sets that have an RPE", () => {
+        const [session] = exerciseHistory(
+            [
+                makeSet({ weight: 100, reps: 5, rpe: 8 }),
+                makeSet({ weight: 100, reps: 5, rpe: 9 }),
+                makeSet({ weight: 100, reps: 5, rpe: null }),
+                makeSet({ setOrder: "W", weight: 40, reps: 10, rpe: 3 }),
+            ],
+            "Bench Press (Barbell)",
+        );
+        expect(session.avgRpe).toBeCloseTo(8.5);
+        expect(session.e1rmRpe).toBeCloseTo(100 * (1 + 7 / 30));
+    });
+
+    it("reports 0 for both RPE metrics when no set has an RPE", () => {
+        expect(exerciseHistory(SETS, "Bench Press (Barbell)")[0]).toMatchObject({ avgRpe: 0, e1rmRpe: 0 });
+    });
+
     it("sums distance and time for cardio and skips warm-up-only workouts", () => {
         expect(exerciseHistory(SETS, "Running")[0]).toMatchObject({ distance: 5, seconds: 1500 });
         expect(exerciseHistory(SETS, "Curl")).toEqual([]);

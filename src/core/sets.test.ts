@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { estimate1RM, exerciseKind, groupBy, isWarmup, setVolume, workingSets } from "./sets";
+import { estimate1RM, estimate1RMFromRPE, exerciseKind, groupBy, isWarmup, setVolume, workingSets } from "./sets";
 import { makeSet } from "./testing";
 
 describe("groupBy", () => {
@@ -35,6 +35,21 @@ describe("estimate1RM", () => {
         expect(estimate1RM(100, 5)).toBeCloseTo(116.667, 3);
         expect(estimate1RM(100, 1)).toBe(100);
         expect(estimate1RM(100, 0)).toBe(0);
+    });
+});
+
+describe("estimate1RMFromRPE", () => {
+    it("adds the reps in reserve (10 - RPE) to the reps before applying Epley", () => {
+        expect(estimate1RMFromRPE(100, 5, 8)).toBeCloseTo(estimate1RM(100, 7));
+        expect(estimate1RMFromRPE(100, 5, 10)).toBeCloseTo(estimate1RM(100, 5));
+        expect(estimate1RMFromRPE(100, 1, 9)).toBeCloseTo(estimate1RM(100, 2));
+    });
+
+    it("is 0 without an RPE, outside the RPE 6-10 range or without reps", () => {
+        expect(estimate1RMFromRPE(100, 5, null)).toBe(0);
+        expect(estimate1RMFromRPE(100, 5, 5.5)).toBe(0);
+        expect(estimate1RMFromRPE(100, 5, 10.5)).toBe(0);
+        expect(estimate1RMFromRPE(100, 0, 8)).toBe(0);
     });
 });
 
