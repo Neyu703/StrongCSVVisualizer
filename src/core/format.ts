@@ -169,3 +169,13 @@ export function describeTrainingHabit(weekday: number | null, hour: number | nul
     }
     return `Meist ${WEEKDAYS_SHORT[weekday]} · meist ${hour}–${hour + 1} Uhr`;
 }
+
+/**
+ * Shortens text to a maximum length, ending with an ellipsis when it was cut.
+ * @param text the text
+ * @param maxLength maximum length including the ellipsis
+ * @returns the text, shortened when longer than maxLength
+ */
+export function truncate(text: string, maxLength: number): string {
+    return text.length <= maxLength ? text : `${text.slice(0, maxLength - 1)}…`;
+}

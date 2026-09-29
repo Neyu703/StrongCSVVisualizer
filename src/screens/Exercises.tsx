@@ -2,12 +2,12 @@ import { useMemo, useState } from "react";
 import { EmptyState } from "../components/EmptyState";
 import { ListGroup, ListRow } from "../components/ListGroup";
 import { ScreenHeader } from "../components/ScreenHeader";
+import { SearchField } from "../components/SearchField";
 import { formatDate } from "../core/format";
 import { exerciseSummaries } from "../core/stats";
 import type { WeightUnit, WorkoutSet } from "../core/types";
 import { KIND_LABELS } from "../labels";
 import { ExerciseDetail } from "./ExerciseDetail";
-import styles from "./Exercises.module.scss";
 
 interface ExercisesProps {
     sets: WorkoutSet[];
@@ -43,14 +43,7 @@ export function Exercises({ sets, unit, now, showTrendlines, selected, onSelect 
     return (
         <>
             <ScreenHeader title="Übungen" />
-            <input
-                type="search"
-                className={styles.search}
-                placeholder="Suchen"
-                aria-label="Übungen durchsuchen"
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-            />
+            <SearchField value={query} onChange={setQuery} label="Übungen durchsuchen" />
             {matches.length === 0 ? (
                 <EmptyState title="Keine Übungen" text={sets.length === 0 ? "Importiere zuerst deine Strong-CSV." : "Nichts gefunden."} />
             ) : (

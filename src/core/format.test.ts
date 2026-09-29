@@ -10,6 +10,7 @@ import {
     formatTrend,
     formatValue,
     formatWeight,
+    truncate,
 } from "./format";
 import { makeSet } from "./testing";
 
@@ -94,5 +95,13 @@ describe("describeTrainingHabit", () => {
         expect(describeTrainingHabit(null, null)).toBe("");
         expect(describeTrainingHabit(1, null)).toBe("");
         expect(describeTrainingHabit(null, 18)).toBe("");
+    });
+});
+
+describe("truncate", () => {
+    it("keeps short text and shortens long text with an ellipsis", () => {
+        expect(truncate("kurz", 10)).toBe("kurz");
+        expect(truncate("genau zehn!", 11)).toBe("genau zehn!");
+        expect(truncate("dieser Text ist zu lang", 10)).toBe("dieser Te…");
     });
 });

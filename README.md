@@ -20,7 +20,7 @@ Hinweise:
 | Tab | Inhalt |
 | --- | --- |
 | Übersicht | Workouts, Trainingszeit, Gesamtvolumen, Arbeitssätze, Wochen-Serie, Workouts pro Woche, Trainingskalender, CSV-Import |
-| Verlauf | Alle Workouts (neueste zuerst) mit Sätzen, RPE und Notizen |
+| Verlauf | Alle Workouts (neueste zuerst) mit Sätzen, RPE und Notizen; Suche nach Workout-Name, Übung und Notizen (bei Notiz-Treffern zeigt die Zeile die Notiz) |
 | Übungen | Suche, Diagramm (1RM, Gewicht, Volumen, Wiederholungen; Cardio: Distanz, Dauer) mit Zeitraumfilter, Rekorde, bestes Gewicht pro Wiederholungszahl, Verlauf |
 | Rekorde | Die wichtigsten Rekorde aller Übungen, Antippen öffnet die Übung |
 | Muskeln | Drehbares anatomisches 3D-Modell (Vorne/Hinten) mit 200+ einzelnen Muskeln, nach Belastung gelb → orange → rot eingefärbt; Details per Darüberfahren/Tippen; Liste mit Sätzen pro Muskel (7, 30, 90 Tage) |
@@ -65,6 +65,7 @@ src/core/         Reine Logik ohne React/DOM, jede Datei mit *.test.ts
   sets.ts           Übungsart, 1RM, Volumen, Hilfsfunktionen
   stats.ts          Workouts, Verlauf, Rekorde, Übersicht
   calendar.ts       Trainingskalender, häufigster Wochentag/Startstunde
+  search.ts         Suche in Workout-Namen, Übungen und Notizen
   muscles.ts        Muskel-Mapping, -Belastung und relative Intensität
   anatomy.ts        Zuordnung Modellmuskel → App-Muskelgruppe; heat.ts: Farbskala
   format.ts         Deutsche Zahlen-, Datums- und Satz-Formatierung
