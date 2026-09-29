@@ -189,3 +189,15 @@ export function describeTrainingHabit(weekday: number | null, hour: number | nul
 export function truncate(text: string, maxLength: number): string {
     return text.length <= maxLength ? text : `${text.slice(0, maxLength - 1)}…`;
 }
+
+/**
+ * Words a number of days back in time, e.g. "vor 53 Tagen".
+ * @param days whole days ago
+ * @returns "heute", "gestern" or "vor N Tagen"
+ */
+export function formatDaysAgo(days: number): string {
+    if (days === 0) {
+        return "heute";
+    }
+    return days === 1 ? "gestern" : `vor ${formatNumber(days)} Tagen`;
+}

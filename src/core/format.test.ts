@@ -5,6 +5,7 @@ import {
     describeTrainingHabit,
     formatCompact,
     formatDate,
+    formatDaysAgo,
     formatDelta,
     formatDuration,
     formatNumber,
@@ -117,5 +118,14 @@ describe("formatDelta", () => {
 
     it("shows no change as ±0", () => {
         expect(formatDelta("weight", 0, "kg")).toBe("±0 kg");
+    });
+});
+
+describe("formatDaysAgo", () => {
+    it("words today, yesterday and older days", () => {
+        expect(formatDaysAgo(0)).toBe("heute");
+        expect(formatDaysAgo(1)).toBe("gestern");
+        expect(formatDaysAgo(53)).toBe("vor 53 Tagen");
+        expect(formatDaysAgo(1234)).toBe("vor 1.234 Tagen");
     });
 });

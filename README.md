@@ -19,7 +19,7 @@ Hinweise:
 
 | Tab | Inhalt |
 | --- | --- |
-| Übersicht | Workouts, Trainingszeit, Gesamtvolumen, Arbeitssätze, Wochen-Serie, Workouts pro Woche, Trainingskalender, CSV-Import |
+| Übersicht | Workouts, Trainingszeit, Gesamtvolumen, Arbeitssätze, Wochen-Serie, Workouts pro Woche, Trainingskalender, stagnierende Übungen, CSV-Import |
 | Verlauf | Alle Workouts (neueste zuerst) mit Sätzen, RPE und Notizen; Suche nach Workout-Name, Übung und Notizen (bei Notiz-Treffern zeigt die Zeile die Notiz); Workout-Detail vergleicht jede Übung mit dem letzten gleichnamigen Workout |
 | Übungen | Suche, Diagramm (1RM, Gewicht, Volumen, Wiederholungen; Cardio: Distanz, Dauer) mit Zeitraumfilter, Rekorde, bestes Gewicht pro Wiederholungszahl, Verlauf |
 | Rekorde | Die wichtigsten Rekorde aller Übungen, Antippen öffnet die Übung |
@@ -52,6 +52,7 @@ Gemeinsam: `Date` (`YYYY-MM-DD HH:mm:ss`) ist die Workout-Startzeit und identifi
     - Ab zwei Datenpunkten mit verschiedenem Datum; sonst keine Linie.
 - **Trainingskalender**: ein Feld pro Tag der letzten 53 Wochen (Mo–So, eine Spalte pro Woche); Farbstufen für 0, 1 und 2+ Workouts. Darunter der häufigste Wochentag und die häufigste Startstunde (bei Gleichstand der frühere Wert).
 - **Workout-Vergleich**: Vorgänger ist das letzte frühere Workout mit gleichem Namen. Pro Übung mit Arbeitssätzen stehen die Änderungen der Kennzahlen (Kraft: 1RM, Gewicht, Volumen, Wdh.) gegenüber dem Vorgänger; Übungen ohne Arbeitssätze dort sind „Neu“.
+- **Stagnierende Übungen**: Kraftübungen mit mindestens 4 Einheiten in den letzten 56 Tagen, deren geschätztes 1RM per Theil-Sen-Trend (siehe Trendlinien) nicht steigt (Steigung ≤ 0); sortiert nach stärkstem Rückgang. Angezeigt werden der Trend pro Monat und wann das beste 1RM erreicht wurde.
 - **Muskeln**: Zuordnung über Schlüsselwörter im Übungsnamen (`src/core/muscles.ts`); Hauptmuskeln zählen pro Satz 1, Hilfsmuskeln 0,5. Unbekannte Übungen und Cardio zählen nicht.
 - **3D-Modell**: Die Farbe ist die Belastung relativ zum am stärksten trainierten Muskel im gewählten Zeitraum (`withIntensity`, Skala in `src/core/heat.ts`); nicht trainierte oder von der App nicht erfasste Muskeln bleiben grau. Das Modell ist ein fertiges Anatomie-Modell (GLB, ein Mesh pro Muskel), das mit Three.js gerendert wird (`src/components/bodyScene.ts`). Jeder Modellmuskel wird über seine Trainingsgruppe einer der 16 App-Muskelgruppen zugeordnet (`src/core/anatomy.ts`, z. B. Chest → Brust; Gluteus medius/minimus und TFL → Abduktoren). Ein Test prüft gegen beide mitgelieferten Maps, dass jede Modellgruppe zugeordnet oder bewusst ausgelassen ist (Nacken, Sartorius, Hüftbeuger, Hüftrotatoren, Unterschenkel) und jede App-Muskelgruppe Meshes hat. Ohne WebGL erscheint ein Hinweis, die Liste darunter bleibt nutzbar.
 - **Modell-Lizenz**: Die Modelle in `assets/anatomy/` stammen aus [fitmitwith-anatomy-atlas](https://github.com/slfresh/fitmitwith-anatomy-atlas) (abgeleitet von Z-Anatomy und BodyParts3D) und stehen unter **CC BY-SA 4.0**; sie sind unverändert eingebunden (Details, Commit und SHA-256 in `assets/anatomy/NOTICE.md`). Die App zeigt den Quellenhinweis im Tab Muskeln und in den Einstellungen. Das weibliche Modell ist laut Autor eine illustrative, fachlich nicht geprüfte Variante. Beide Modelle sind in `StrongPro.html` eingebettet (ca. 8 MB Dateigröße); geladen wird nur das gewählte.
@@ -67,6 +68,7 @@ src/core/         Reine Logik ohne React/DOM, jede Datei mit *.test.ts
   stats.ts          Workouts, Verlauf, Rekorde, Übersicht
   calendar.ts       Trainingskalender, häufigster Wochentag/Startstunde
   compare.ts        Vorheriges gleichnamiges Workout, Vergleich pro Übung
+  plateau.ts        Stagnierende Übungen
   search.ts         Suche in Workout-Namen, Übungen und Notizen
   muscles.ts        Muskel-Mapping, -Belastung und relative Intensität
   anatomy.ts        Zuordnung Modellmuskel → App-Muskelgruppe; heat.ts: Farbskala

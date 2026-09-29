@@ -10,7 +10,8 @@ import { StatTile } from "../components/StatTile";
 import { CalendarHeatmap } from "../components/CalendarHeatmap";
 import { WeeklyChart } from "../components/WeeklyChart";
 import { busiestHour, busiestWeekday, trainingCalendar } from "../core/calendar";
-import { describeTrainingHabit, formatCompact, formatNumber } from "../core/format";
+import { describeTrainingHabit, formatCompact, formatDaysAgo, formatNumber, formatTrend } from "../core/format";
+import { findPlateaus } from "../core/plateau";
 import { groupWorkouts, overviewStats } from "../core/stats";
 import type { WeightUnit, WorkoutSet } from "../core/types";
 import styles from "./Overview.module.scss";
@@ -32,13 +33,15 @@ interface OverviewProps {
     message: ImportMessage | null;
     onFile: (file: File) => void;
     onReset: () => void;
+    onSelectExercise: (exercise: string) => void;
 }
 
-/** Overview tab: key figures, weekly frequency, CSV import and data reset. */
-export function Overview({ sets, unit, now, showTrendlines, message, onFile, onReset }: OverviewProps) {
+/** Overview tab: key figures, weekly frequency, training calendar, stagnating lifts, CSV import and data reset. */
+export function Overview({ sets, unit, now, showTrendlines, message, onFile, onReset, onSelectExercise }: OverviewProps) {
     const stats = useMemo(() => overviewStats(sets, now), [sets, now]);
     const workouts = useMemo(() => groupWorkouts(sets), [sets]);
     const calendar = useMemo(() => trainingCalendar(workouts, now), [workouts, now]);
+    const plateaus = useMemo(() => findPlateaus(sets, now), [sets, now]);
     const [range, setRange] = useState<WeekRange>("26");
     const weeks = range === "all" ? stats.weeks : stats.weeks.slice(-Number(range));
     const hasData = sets.length > 0;
@@ -70,6 +73,21 @@ export function Overview({ sets, unit, now, showTrendlines, message, onFile, onR
                         <CalendarHeatmap weeks={calendar} />
                         <p className={styles.caption}>{describeTrainingHabit(busiestWeekday(workouts), busiestHour(workouts))}</p>
                     </Card>
+                    {plateaus.length > 0 && (
+                        <ListGroup
+                            header="Stagnierende Übungen"
+                            footer="Das geschätzte 1RM war in den letzten 8 Wochen bei mindestens 4 Einheiten flach oder fallend."
+                        >
+                            {plateaus.map((plateau) => (
+                                <ListRow
+                                    key={plateau.exercise}
+                                    title={plateau.exercise}
+                                    subtitle={`${formatTrend(plateau.slopePerDay, "weight", unit)} · Rekord ${formatDaysAgo(plateau.daysSinceBest)}`}
+                                    onClick={() => onSelectExercise(plateau.exercise)}
+                                />
+                            ))}
+                        </ListGroup>
+                    )}
                 </>
             )}
             <ImportCard hasData={hasData} message={message} onFile={onFile} />

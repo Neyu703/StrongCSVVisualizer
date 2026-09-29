@@ -63,7 +63,7 @@ export default function App() {
         <>
             <main className={styles.content}>
                 {tab === "overview" && (
-                    <Overview sets={sets} unit={unit} now={now} showTrendlines={settings.showTrendlines} message={message} onFile={importFile} onReset={reset} />
+                    <Overview sets={sets} unit={unit} now={now} showTrendlines={settings.showTrendlines} message={message} onFile={importFile} onReset={reset} onSelectExercise={openExercise} />
                 )}
                 {tab === "history" && <History sets={sets} unit={unit} />}
                 {tab === "exercises" && <Exercises sets={sets} unit={unit} now={now} showTrendlines={settings.showTrendlines} selected={exercise} onSelect={openExercise} />}
