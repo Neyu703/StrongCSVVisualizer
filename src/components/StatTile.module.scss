@@ -1,0 +1,16 @@
+@use "../styles/mixins" as *;
+
+.tile {
+    @include tile;
+    gap: 4px;
+}
+
+.label {
+    @include footnote;
+}
+
+.value {
+    @include title;
+    font-variant-numeric: tabular-nums;
+    overflow-wrap: anywhere;
+}

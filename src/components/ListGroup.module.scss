@@ -1,0 +1,116 @@
+@use "../styles/mixins" as *;
+
+.group {
+    margin-bottom: 24px;
+}
+
+.header {
+    @include footnote;
+    padding: 0 16px 6px;
+    text-transform: uppercase;
+    font-weight: 400;
+}
+
+.footer {
+    @include footnote;
+    padding: 6px 16px 0;
+}
+
+.list {
+    @include grouped-list;
+}
+
+.row,
+.actionRow,
+.destructiveRow {
+    @include tap-target;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 10px 16px;
+    text-align: left;
+}
+
+.actionRow,
+.destructiveRow {
+    transition: background 0.15s ease;
+
+    &:active {
+        background: var(--fill);
+    }
+}
+
+.destructiveRow {
+    justify-content: center;
+    color: var(--red);
+}
+
+.leading {
+    flex: none;
+}
+
+.text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.title {
+    @include body;
+    overflow-wrap: anywhere;
+}
+
+.subtitle {
+    @include subhead;
+}
+
+.value {
+    @include body;
+    flex: none;
+    color: var(--label-secondary);
+    font-variant-numeric: tabular-nums;
+}
+
+.chevron {
+    flex: none;
+    width: 8px;
+    height: 14px;
+    color: var(--label-tertiary);
+}
+
+// iOS switch: 51×31 track, 27px knob
+.switch {
+    appearance: none;
+    flex: none;
+    position: relative;
+    width: 51px;
+    height: 31px;
+    margin: 0;
+    border-radius: 31px;
+    background: var(--fill-strong);
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &::after {
+        content: "";
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 27px;
+        height: 27px;
+        border-radius: 50%;
+        background: #ffffff;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+        transition: transform 0.2s ease;
+    }
+
+    &:checked {
+        background: var(--green);
+
+        &::after {
+            transform: translateX(20px);
+        }
+    }
+}

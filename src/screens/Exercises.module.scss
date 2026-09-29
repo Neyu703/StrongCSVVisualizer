@@ -1,0 +1,20 @@
+@use "../styles/mixins" as *;
+
+.search {
+    @include body;
+    width: 100%;
+    height: 36px;
+    margin-bottom: 20px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: 10px;
+    background: var(--fill);
+
+    &::placeholder {
+        color: var(--label-secondary);
+    }
+
+    &:focus-visible {
+        outline-offset: 0;
+    }
+}

@@ -1,0 +1,106 @@
+// Apple HIG text styles (iOS dynamic type defaults)
+@mixin title-large {
+    font-size: 34px;
+    line-height: 41px;
+    font-weight: 700;
+    letter-spacing: 0.37px;
+}
+
+@mixin title {
+    font-size: 22px;
+    line-height: 28px;
+    font-weight: 700;
+    letter-spacing: 0.35px;
+}
+
+@mixin headline {
+    font-size: 17px;
+    line-height: 22px;
+    font-weight: 600;
+}
+
+@mixin body {
+    font-size: 17px;
+    line-height: 22px;
+}
+
+@mixin subhead {
+    font-size: 15px;
+    line-height: 20px;
+    color: var(--label-secondary);
+}
+
+@mixin footnote {
+    font-size: 13px;
+    line-height: 18px;
+    color: var(--label-secondary);
+}
+
+@mixin tap-target {
+    min-height: 44px;
+}
+
+@mixin card {
+    background: var(--bg-card);
+    border-radius: var(--radius-card);
+}
+
+// Card that stacks its content in a column
+@mixin card-section {
+    @include card;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    margin-bottom: 24px;
+}
+
+// Compact card used for key figures
+@mixin tile {
+    @include card;
+    display: flex;
+    flex-direction: column;
+    padding: 14px 16px;
+}
+
+@mixin two-column-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+// Inset grouped list: rounded card, hairline separators inset from the leading edge
+@mixin grouped-list {
+    @include card;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+
+    > li {
+        position: relative;
+    }
+
+    > li + li::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 16px;
+        right: 0;
+        height: 0.5px;
+        background: var(--separator);
+    }
+}
+
+@mixin filled-button {
+    @include tap-target;
+    @include headline;
+    padding: 0 20px;
+    border-radius: var(--radius-control);
+    background: var(--tint);
+    color: #ffffff;
+    transition: opacity 0.15s ease;
+
+    &:active {
+        opacity: 0.6;
+    }
+}

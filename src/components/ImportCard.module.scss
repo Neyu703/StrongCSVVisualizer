@@ -1,0 +1,43 @@
+@use "../styles/mixins" as *;
+
+.zone,
+.dragging {
+    @include card-section;
+    align-items: flex-start;
+    gap: 10px;
+    border: 1.5px dashed transparent;
+    transition:
+        border-color 0.15s ease,
+        background 0.15s ease;
+}
+
+.dragging {
+    border-color: var(--tint);
+    background: color-mix(in srgb, var(--tint) 10%, var(--bg-card));
+}
+
+.title {
+    @include headline;
+}
+
+.text {
+    @include subhead;
+}
+
+.button {
+    @include filled-button;
+}
+
+.success,
+.error {
+    @include subhead;
+    font-weight: 500;
+}
+
+.success {
+    color: var(--green);
+}
+
+.error {
+    color: var(--red);
+}

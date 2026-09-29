@@ -1,0 +1,41 @@
+@use "../styles/mixins" as *;
+
+.window {
+    margin-bottom: 16px;
+}
+
+.grid {
+    @include two-column-grid;
+    margin-bottom: 16px;
+}
+
+.cell {
+    @include tile;
+    position: relative;
+    gap: 2px;
+}
+
+// Legend swatch in the heat color of the muscle; grey when untrained
+.dot {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--fill-strong);
+}
+
+.name {
+    @include headline;
+}
+
+.value {
+    @include subhead;
+    font-variant-numeric: tabular-nums;
+}
+
+.footer {
+    @include footnote;
+    padding: 0 16px;
+}

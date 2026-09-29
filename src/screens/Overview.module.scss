@@ -1,0 +1,6 @@
+@use "../styles/mixins" as *;
+
+.tiles {
+    @include two-column-grid;
+    margin-bottom: 24px;
+}

@@ -1,0 +1,59 @@
+@use "../styles/mixins" as *;
+
+.stage {
+    position: relative;
+    height: 460px;
+}
+
+.host {
+    width: 100%;
+    height: 100%;
+
+    canvas {
+        display: block;
+        cursor: grab;
+    }
+}
+
+.label {
+    @include footnote;
+    position: absolute;
+    z-index: 1;
+    padding: 6px 10px;
+    border: 0.5px solid var(--separator);
+    border-radius: 10px;
+    background: var(--bg-card);
+    color: var(--label);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    white-space: nowrap;
+    pointer-events: none;
+    transform: translate(12px, 12px);
+}
+
+.status {
+    @include subhead;
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    pointer-events: none;
+}
+
+.legend {
+    @include footnote;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.gradient {
+    flex: 1;
+    height: 8px;
+    border-radius: 4px;
+}
+
+.hint {
+    @include footnote;
+    text-align: center;
+}

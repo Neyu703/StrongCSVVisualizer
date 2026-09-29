@@ -1,0 +1,26 @@
+.control {
+    display: flex;
+    padding: 2px;
+    gap: 2px;
+    background: var(--fill);
+    border-radius: var(--radius-control);
+}
+
+.segment {
+    flex: 1;
+    min-height: 28px;
+    padding: 0 8px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: background 0.15s ease;
+
+    &[aria-checked="true"] {
+        background: var(--bg-segment-selected);
+        font-weight: 600;
+        box-shadow:
+            0 3px 8px rgba(0, 0, 0, 0.12),
+            0 3px 1px rgba(0, 0, 0, 0.04);
+    }
+}

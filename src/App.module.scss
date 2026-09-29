@@ -1,0 +1,5 @@
+.content {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: 8px 16px calc(var(--tab-bar-height) + env(safe-area-inset-bottom) + 24px);
+}

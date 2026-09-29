@@ -1,0 +1,19 @@
+@use "../styles/mixins" as *;
+
+.summary {
+    @include subhead;
+    margin: -8px 0 24px;
+}
+
+.marker {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 28px;
+    padding: 0 6px;
+    border-radius: 8px;
+    @include footnote;
+    background: var(--fill);
+    font-weight: 600;
+}

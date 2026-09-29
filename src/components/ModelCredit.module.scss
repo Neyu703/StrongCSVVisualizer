@@ -1,0 +1,10 @@
+@use "../styles/mixins" as *;
+
+.credit {
+    @include footnote;
+    text-align: center;
+
+    a {
+        color: var(--tint);
+    }
+}

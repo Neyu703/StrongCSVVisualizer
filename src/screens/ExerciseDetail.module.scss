@@ -1,0 +1,12 @@
+@use "../styles/mixins" as *;
+
+.noData {
+    @include subhead;
+    padding: 32px 0;
+    text-align: center;
+}
+
+.trendCaption {
+    @include footnote;
+    text-align: center;
+}

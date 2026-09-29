@@ -1,0 +1,29 @@
+@use "../styles/mixins" as *;
+
+.header {
+    padding: 12px 0 16px;
+}
+
+.back {
+    @include tap-target;
+    @include body;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: -4px;
+    color: var(--tint);
+
+    svg {
+        width: 12px;
+        height: 20px;
+    }
+
+    &:active {
+        opacity: 0.4;
+    }
+}
+
+.title {
+    @include title-large;
+    overflow-wrap: anywhere;
+}

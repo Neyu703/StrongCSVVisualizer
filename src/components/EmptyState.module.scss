@@ -1,0 +1,19 @@
+@use "../styles/mixins" as *;
+
+.empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 48px 24px;
+    text-align: center;
+}
+
+.title {
+    @include title;
+}
+
+.text {
+    @include subhead;
+    max-width: 320px;
+}
