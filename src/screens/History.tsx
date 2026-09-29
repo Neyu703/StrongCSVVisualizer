@@ -4,6 +4,7 @@ import { ListGroup, ListRow } from "../components/ListGroup";
 import { ScreenHeader } from "../components/ScreenHeader";
 import { SearchField } from "../components/SearchField";
 import { formatDate, formatDuration, formatValue, truncate } from "../core/format";
+import { previousWorkout } from "../core/compare";
 import { searchWorkouts } from "../core/search";
 import { groupWorkouts, workoutVolume } from "../core/stats";
 import type { WeightUnit, WorkoutSet } from "../core/types";
@@ -26,7 +27,14 @@ export function History({ sets, unit }: HistoryProps) {
     const selected = workouts.find((workout) => workout.date === selectedDate);
 
     if (selected) {
-        return <WorkoutDetail workout={selected} unit={unit} onBack={() => setSelectedDate(null)} />;
+        return (
+            <WorkoutDetail
+                workout={selected}
+                previous={previousWorkout(workouts, selected)}
+                unit={unit}
+                onBack={() => setSelectedDate(null)}
+            />
+        );
     }
     return (
         <>

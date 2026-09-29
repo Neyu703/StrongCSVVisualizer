@@ -154,7 +154,7 @@ function setsOf(sets: WorkoutSet[], exercise: string): WorkoutSet[] {
  * @param sessionSets non-empty working sets of one exercise in that workout
  * @returns the session
  */
-function toSession(date: string, sessionSets: WorkoutSet[]): ExerciseSession {
+export function sessionOf(date: string, sessionSets: WorkoutSet[]): ExerciseSession {
     const volumes = sessionSets.map(setVolume);
     return {
         date,
@@ -176,7 +176,7 @@ function toSession(date: string, sessionSets: WorkoutSet[]): ExerciseSession {
  */
 function sessionsOf(ownSets: WorkoutSet[]): ExerciseSession[] {
     return [...groupBy(workingSets(ownSets), (set) => set.date)].map(([date, sessionSets]) =>
-        toSession(date, sessionSets),
+        sessionOf(date, sessionSets),
     );
 }
 

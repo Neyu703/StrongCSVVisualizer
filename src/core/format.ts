@@ -111,14 +111,24 @@ export function formatValue(format: ValueFormat, value: number, unit: WeightUnit
  * @returns display text with an explicit sign
  */
 export function formatTrend(slopePerDay: number, format: ValueFormat, unit: WeightUnit): string {
-    const perMonth = slopePerDay * DAYS_PER_MONTH;
+    return `Trend: ${formatDelta(format, slopePerDay * DAYS_PER_MONTH, unit)} pro Monat`;
+}
+
+/**
+ * Describes a change of a metric with an explicit sign, e.g. "+2,5 kg", "−1 Wdh." or "±0 kg".
+ * @param delta change of the metric
+ * @param format how the metric is shown
+ * @param unit weight unit
+ * @returns display text
+ */
+export function formatDelta(format: ValueFormat, delta: number, unit: WeightUnit): string {
     let sign = "±";
-    if (perMonth > 0) {
+    if (delta > 0) {
         sign = "+";
-    } else if (perMonth < 0) {
+    } else if (delta < 0) {
         sign = "−";
     }
-    return `Trend: ${sign}${formatValue(format, Math.abs(perMonth), unit)} pro Monat`;
+    return `${sign}${formatValue(format, Math.abs(delta), unit)}`;
 }
 
 /**

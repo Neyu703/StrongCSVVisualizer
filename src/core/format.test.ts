@@ -5,6 +5,7 @@ import {
     describeTrainingHabit,
     formatCompact,
     formatDate,
+    formatDelta,
     formatDuration,
     formatNumber,
     formatTrend,
@@ -103,5 +104,18 @@ describe("truncate", () => {
         expect(truncate("kurz", 10)).toBe("kurz");
         expect(truncate("genau zehn!", 11)).toBe("genau zehn!");
         expect(truncate("dieser Text ist zu lang", 10)).toBe("dieser Te…");
+    });
+});
+
+describe("formatDelta", () => {
+    it("shows the change with an explicit sign", () => {
+        expect(formatDelta("weight", 2.5, "kg")).toBe("+2,5 kg");
+        expect(formatDelta("weight", -10, "lb")).toBe("−10 lb");
+        expect(formatDelta("reps", -1, "kg")).toBe("−1 Wdh.");
+        expect(formatDelta("time", 300, "kg")).toBe("+5 Min.");
+    });
+
+    it("shows no change as ±0", () => {
+        expect(formatDelta("weight", 0, "kg")).toBe("±0 kg");
     });
 });
