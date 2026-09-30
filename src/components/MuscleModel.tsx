@@ -6,7 +6,6 @@ import type { BodyModel } from "../core/settings";
 import { Card } from "./Card";
 import { createBodyScene } from "./bodyScene";
 import type { BodyScene, BodyView } from "./bodyScene";
-import { ModelCredit } from "./ModelCredit";
 import { SegmentedControl } from "./SegmentedControl";
 import type { SegmentOption } from "./SegmentedControl";
 import styles from "./MuscleModel.module.scss";
@@ -94,7 +93,6 @@ export function MuscleModel({ entries, model }: MuscleModelProps) {
                 Ziehen zum Drehen, Tippen oder Darüberfahren für Details. Graue Muskeln wurden nicht trainiert oder werden
                 von der App nicht erfasst.
             </p>
-            <ModelCredit />
         </Card>
     );
 }
