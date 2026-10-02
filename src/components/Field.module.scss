@@ -65,6 +65,12 @@
         appearance: none;
         padding-right: 24px;
         cursor: pointer;
+
+        // The native popup ignores the transparent select background; without this, dark mode shows white on white
+        option {
+            background: var(--bg-card);
+            color: var(--label);
+        }
     }
 
     @media (prefers-contrast: more) {
