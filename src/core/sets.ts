@@ -77,6 +77,20 @@ export function estimate1RM(weight: number, reps: number): number {
     return reps === 1 ? weight : weight * (1 + reps / 30);
 }
 
+/**
+ * Finds the working set with the highest 1RM estimate, e.g. to prefill a 1RM calculator.
+ * @param sets sets of one exercise
+ * @returns the best set, null without working sets that have reps
+ */
+export function bestEstimatedSet(sets: WorkoutSet[]): WorkoutSet | null {
+    return workingSets(sets)
+        .filter((set) => set.reps > 0)
+        .reduce<WorkoutSet | null>(
+            (best, set) => (best === null || estimate1RM(set.weight, set.reps) > estimate1RM(best.weight, best.reps) ? set : best),
+            null,
+        );
+}
+
 const MIN_RPE = 6;
 const MAX_RPE = 10;
 

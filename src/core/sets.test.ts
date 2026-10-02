@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { estimate1RM, estimate1RMFromRPE, exerciseKind, groupBy, isWarmup, setVolume, workingSets } from "./sets";
+import { bestEstimatedSet, estimate1RM, estimate1RMFromRPE, exerciseKind, groupBy, isWarmup, setVolume, workingSets } from "./sets";
 import { makeSet } from "./testing";
 
 describe("groupBy", () => {
@@ -58,5 +58,17 @@ describe("setVolume", () => {
         expect(setVolume(makeSet())).toBe(500);
         expect(setVolume(makeSet({ setOrder: "W" }))).toBe(0);
         expect(setVolume(makeSet({ exercise: "Pull Up (Assisted)" }))).toBe(0);
+    });
+});
+
+describe("bestEstimatedSet", () => {
+    it("picks the working set with the highest 1RM estimate", () => {
+        const best = makeSet({ weight: 90, reps: 8 });
+        const sets = [makeSet({ weight: 120, reps: 5, setOrder: "W" }), makeSet({ weight: 100, reps: 3 }), best, makeSet({ weight: 60, reps: 10 }), makeSet({ weight: 80, reps: 0 })];
+        expect(bestEstimatedSet(sets)).toBe(best);
+    });
+
+    it("returns null without working sets that have reps", () => {
+        expect(bestEstimatedSet([makeSet({ reps: 0 }), makeSet({ setOrder: "W" })])).toBeNull();
     });
 });

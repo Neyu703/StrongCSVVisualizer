@@ -1,0 +1,55 @@
+@use "../styles/mixins" as *;
+
+.gauge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+
+    svg {
+        width: 100%;
+        max-width: 360px;
+    }
+}
+
+.segment {
+    fill: none;
+    stroke-width: 20;
+}
+
+// Gap in the card color between neighboring classes
+.separator {
+    stroke: var(--bg-card);
+    stroke-width: 2;
+}
+
+.tick {
+    fill: var(--label-secondary);
+    font-size: 10px;
+    text-anchor: middle;
+    dominant-baseline: middle;
+    font-variant-numeric: tabular-nums;
+}
+
+.needle {
+    stroke: var(--label);
+    stroke-width: 3;
+    stroke-linecap: round;
+}
+
+.hub {
+    fill: var(--label);
+}
+
+.caption {
+    @include subhead;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.value {
+    @include title;
+    color: var(--label);
+    font-variant-numeric: tabular-nums;
+}

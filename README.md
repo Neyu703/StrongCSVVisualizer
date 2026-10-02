@@ -24,9 +24,10 @@ Hinweise:
 | Übungen | Suche, Diagramm (1RM, Gewicht, Volumen, Wiederholungen; Cardio: Distanz, Dauer) mit Zeitraumfilter, Rekorde, bestes Gewicht pro Wiederholungszahl, Verlauf; bei Übungen mit RPE zusätzlich „Ø RPE“ und (nur bei Kraftübungen) „RPE-1RM“ im Diagramm |
 | Rekorde | Die wichtigsten Rekorde aller Übungen, Antippen öffnet die Übung |
 | Muskeln | Drehbares anatomisches 3D-Modell (Vorne/Hinten) mit 200+ einzelnen Muskeln, nach Belastung gelb → orange → rot eingefärbt; Details per Darüberfahren/Tippen; Liste mit Sätzen pro Muskel (7, 30, 90 Tage); Antippen eines Muskels zeigt die Sätze pro Woche (12, 26 oder 52 Wochen) mit Zielband und Trendlinie |
+| Körper | Ein Profil (Geschlecht, Alter, Größe, Gewicht, Umfänge, Aktivität, optional Ruhepuls und gemessenes Körperfett) liefert live: BMI mit Skala, Körperfett (US-Navy, BMI-Methode) mit ACE-Klassen, Idealgewicht, Magermasse, FFMI, Taille/Größe, Taille/Hüfte, Körperoberfläche; Grundumsatz (3 Formeln), Tagesbedarf, Kalorienziele, Makros, Wasser; Ziel-Planer mit Dauer, Zieldatum, Tagesziel und Gewichtskurve; 1RM-Rechner (Bester Satz aus den Strong-Daten übernehmbar), Herzfrequenzzonen, Pace und Wettkampfprognose. Metrisch/imperial und kcal/kJ umschaltbar; das Profil wird gespeichert |
 | Einstellungen | Schalter „Trendlinien“ für alle Diagramme (Standard: an) und Wahl des 3D-Modells männlich/weiblich (Standard: männlich); beides wird gespeichert |
 
-Nicht enthalten: Plate-/Warm-up-Rechner, Körpermaße, Workout-Templates, Themes.
+Nicht enthalten: Plate-/Warm-up-Rechner, Verlauf von Körpermaßen, Workout-Templates, Themes.
 
 ## Unterstützte CSV-Formate
 
@@ -58,6 +59,14 @@ Gemeinsam: `Date` (`YYYY-MM-DD HH:mm:ss`) ist die Workout-Startzeit und identifi
 - **Muskeln**: Zuordnung über Schlüsselwörter im Übungsnamen (`src/core/muscles.ts`); Hauptmuskeln zählen pro Satz 1, Hilfsmuskeln 0,5. Unbekannte Übungen und Cardio zählen nicht.
 - **Sätze pro Woche**: gewichtete Arbeitssätze eines Muskels je Kalenderwoche (Mo–So), Zielband 10–20 Sätze (`WEEKLY_SET_TARGET` in `src/core/muscles.ts`); die Trendlinie ist wie bei den Workouts pro Woche eine Regression nach kleinsten Quadraten.
 - **3D-Modell**: Die Farbe ist die Belastung relativ zum am stärksten trainierten Muskel im gewählten Zeitraum (`withIntensity`, Skala in `src/core/heat.ts`); nicht trainierte oder von der App nicht erfasste Muskeln bleiben grau. Das Modell ist ein fertiges Anatomie-Modell (GLB, ein Mesh pro Muskel), das mit Three.js gerendert wird (`src/components/bodyScene.ts`). Jeder Modellmuskel wird über seine Trainingsgruppe einer der 16 App-Muskelgruppen zugeordnet (`src/core/anatomy.ts`, z. B. Chest → Brust; Gluteus medius/minimus und TFL → Abduktoren). Ein Test prüft gegen beide mitgelieferten Maps, dass jede Modellgruppe zugeordnet oder bewusst ausgelassen ist (Nacken, Sartorius, Hüftbeuger, Hüftrotatoren, Unterschenkel) und jede App-Muskelgruppe Meshes hat. Ohne WebGL erscheint ein Hinweis, die Liste darunter bleibt nutzbar.
+- **Körper-Tab** (`src/core/body/`, intern immer metrisch; leere Felder ergeben „–“ statt Fehlwerten):
+    - BMI nach WHO-Klassen, gesunder Bereich 18,5–25, BMI Prime (BMI ÷ 25), Ponderal-Index (kg/m³).
+    - Körperfett: US-Navy-Umfangsmethode (Frauen mit Hüfte), BMI-Methode nach Deurenberg; ein gemessener Wert hat Vorrang, sonst Navy vor BMI-Methode. Klassen nach ACE, Idealwert nach Jackson & Pollock (20–55 Jahre, linear interpoliert), „Fett bis zum Idealwert“ = Gewicht × (KFA − Ideal).
+    - Idealgewicht nach Robinson, Miller, Devine und Hamwi; Magermasse nach Boer, James und Hume; FFMI aus der Magermasse, normalisiert auf 1,80 m; Körperoberfläche nach Mosteller und Du Bois.
+    - Grundumsatz nach Mifflin-St Jeor, revidiertem Harris-Benedict oder Katch-McArdle (braucht Körperfett); Tagesbedarf mit Aktivitätsfaktor 1,2–1,9; 1 kg ≈ 7.700 kcal.
+    - Makros: Protein in g/kg, Fett als Kalorienanteil, Kohlenhydrate füllen den Rest; Basis ist die erste Woche des Ziel-Plans, sonst der Tagesbedarf. Wasser 35 ml/kg.
+    - Ziel-Planer: konstantes Tempo pro Woche, der Tagesbedarf wird jede Woche für das geplante Gewicht neu berechnet; Warnung unter 1.500 (Männer) bzw. 1.200 kcal (Frauen) und bei einem Ziel-BMI unter 18,5.
+    - Training: 1RM nach Epley (wie Strong), Brzycki und Lombardi für 1–30 Wiederholungen; HFmax nach 220 − Alter und Tanaka, Zonen nach Karvonen (ohne Ruhepuls als Anteil der HFmax); Wettkampfprognose nach Riegel (Exponent 1,06).
 - **Modell-Lizenz**: Die Modelle in `assets/anatomy/` stammen aus [fitmitwith-anatomy-atlas](https://github.com/slfresh/fitmitwith-anatomy-atlas) (abgeleitet von Z-Anatomy und BodyParts3D) und stehen unter **CC BY-SA 4.0**; sie sind unverändert eingebunden (Details, Commit und SHA-256 in `assets/anatomy/NOTICE.md`). Die App zeigt den Quellenhinweis im Tab Muskeln und in den Einstellungen. Das weibliche Modell ist laut Autor eine illustrative, fachlich nicht geprüfte Variante. Beide Modelle sind in `StrongPro.html` eingebettet (ca. 8 MB Dateigröße); geladen wird nur das gewählte.
 
 ## Projektstruktur
@@ -79,11 +88,12 @@ src/core/         Reine Logik ohne React/DOM, jede Datei mit *.test.ts
   format.ts         Deutsche Zahlen-, Datums- und Satz-Formatierung
   trend.ts          Trendlinien (Theil-Sen, kleinste Quadrate)
   storage.ts        localStorage-Zugriff (Daten); settings.ts: Einstellungen
+  body/             Körper-Tab: BMI, Körperfett, Energie, Ernährung, Planer, Training, Profil, Einheiten
   dates.ts, types.ts
 src/components/   Wiederverwendbare UI-Bausteine (Liste, Tab-Bar, Charts, Import)
 src/screens/      Ein Screen pro Tab plus Detailansichten
 src/styles/       SCSS: Design-Tokens (Apple-Systemfarben, Dark Mode), Mixins, Global
-src/App.tsx       Tab-Navigation; src/useLibrary.ts: Laden, Import, Reset
+src/App.tsx       Tab-Navigation; src/useLibrary.ts: Laden, Import, Reset; src/useBodyProfile.ts: Körper-Profil
 assets/anatomy/   3D-Modelle und Maps (CC BY-SA 4.0, siehe NOTICE.md)
 scripts/publish.mjs   Kopiert dist/index.html nach StrongPro.html
 ```

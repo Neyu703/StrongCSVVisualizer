@@ -16,7 +16,23 @@
     font-size: 13px;
     font-weight: 500;
     white-space: nowrap;
-    transition: background 0.15s ease;
+    transition:
+        background 0.15s ease,
+        opacity 0.15s ease;
+
+    @media (hover: hover) {
+        &:not([aria-checked="true"]):hover {
+            background: var(--fill-hover);
+        }
+    }
+
+    &:not([aria-checked="true"]):active {
+        opacity: 0.6;
+    }
+
+    &:focus-visible {
+        outline-offset: 0;
+    }
 
     &[aria-checked="true"] {
         background: var(--bg-segment-selected);

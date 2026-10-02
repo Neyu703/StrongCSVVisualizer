@@ -14,3 +14,17 @@
     font-variant-numeric: tabular-nums;
     overflow-wrap: anywhere;
 }
+
+.detail {
+    @include subhead;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.dot {
+    flex: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}

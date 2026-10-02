@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { TabBar } from "./components/TabBar";
 import type { TabItem } from "./components/TabBar";
 import type { Library } from "./core/types";
+import { Body } from "./screens/Body";
 import { Exercises } from "./screens/Exercises";
 import { History } from "./screens/History";
 import { Muscles } from "./screens/Muscles";
@@ -12,7 +13,7 @@ import { useLibrary } from "./useLibrary";
 import { useSettings } from "./useSettings";
 import styles from "./App.module.scss";
 
-type Tab = "overview" | "history" | "exercises" | "records" | "muscles" | "settings";
+type Tab = "overview" | "history" | "exercises" | "records" | "muscles" | "body" | "settings";
 
 const EMPTY_LIBRARY: Library = { unit: "kg", sets: [] };
 
@@ -31,6 +32,16 @@ const TABS: TabItem<Tab>[] = [
     { id: "exercises", label: "Übungen", icon: <path d="M6 7v10M3 10v4M18 7v10M21 10v4M6 12h12" /> },
     { id: "records", label: "Rekorde", icon: <path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.2 6.5 20.2l1-6.2L3 9.6l6.2-.9z" /> },
     { id: "muscles", label: "Muskeln", icon: <path d="M2 12h5l3-8 4 16 3-8h5" /> },
+    {
+        id: "body",
+        label: "Körper",
+        icon: (
+            <>
+                <circle cx="12" cy="4.5" r="2.5" />
+                <path d="M5 9.5l7 1.5 7-1.5M12 11v4M12 15l-3 6.5M12 15l3 6.5" />
+            </>
+        ),
+    },
     {
         id: "settings",
         label: "Einstellungen",
@@ -69,6 +80,7 @@ export default function App() {
                 {tab === "exercises" && <Exercises sets={sets} unit={unit} now={now} showTrendlines={settings.showTrendlines} selected={exercise} onSelect={openExercise} />}
                 {tab === "records" && <Records sets={sets} unit={unit} onSelectExercise={openExercise} />}
                 {tab === "muscles" && <Muscles sets={sets} now={now} model={settings.bodyModel} showTrendlines={settings.showTrendlines} />}
+                {tab === "body" && <Body sets={sets} unit={unit} bodyModel={settings.bodyModel} now={now} />}
                 {tab === "settings" && <Settings settings={settings} onChange={updateSettings} />}
             </main>
             <TabBar tabs={TABS} active={tab} onSelect={setTab} />

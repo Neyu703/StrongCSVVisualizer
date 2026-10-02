@@ -1,0 +1,55 @@
+@use "../styles/mixins" as *;
+
+.scale {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 0;
+}
+
+.bar {
+    position: relative;
+    display: flex;
+    gap: 2px;
+    height: 14px;
+}
+
+.segment {
+    flex-basis: 0;
+    border-radius: 3px;
+}
+
+.marker {
+    position: absolute;
+    top: -4px;
+    width: 4px;
+    height: 22px;
+    margin-left: -2px;
+    border-radius: 2px;
+    background: var(--label);
+    box-shadow: 0 0 0 2px var(--bg-card);
+}
+
+.labels {
+    @include footnote;
+    display: flex;
+    gap: 2px;
+    font-size: 11px;
+    line-height: 14px;
+
+    > span {
+        display: flex;
+        flex-basis: 0;
+        flex-direction: column;
+        min-width: 0;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+}
+
+.name {
+    color: var(--label);
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
