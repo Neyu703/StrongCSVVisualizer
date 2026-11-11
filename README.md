@@ -1,6 +1,6 @@
 # Strong Pro Web
 
-Die Analyse-Features von Strong Pro (Charts, Rekorde, 1RM, Muskel-Heatmap) für den eigenen CSV-Export – lokal im Browser, ohne Server, ohne Konto. Die fertige App ist **eine einzige HTML-Datei**: `StrongPro.html` per Doppelklick öffnen.
+Die Analyse-Features von Strong Pro (Charts, Rekorde, 1RM, Muskel-Heatmap) für den eigenen CSV-Export – lokal im Browser, ohne Server, ohne Konto. Die fertige App ist **eine einzige HTML-Datei**: `StrongPro.html` per Doppelklick öffnen – oder direkt online: https://neyu703.github.io/StrongCSVVisualizer/ (läuft komplett lokal im Browser, die CSV verlässt das Gerät nie).
 
 ## Benutzung
 
