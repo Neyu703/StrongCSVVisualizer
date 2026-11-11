@@ -1,5 +1,5 @@
-const CACHE = "strong-pro-v1";
-const SHELL = ["./", "manifest.webmanifest", "icons/icon-180.png", "icons/icon-192.png", "icons/icon-512.png"];
+const CACHE = "strong-pro-v2";
+const SHELL = ["./", "manifest.webmanifest", "icons/icon-180.png", "icons/icon-192.png", "icons/icon-512.png", "icons/splash-1284x2778-light.png", "icons/splash-1284x2778-dark.png"];
 const NETWORK_TIMEOUT_MS = 4000;
 
 self.addEventListener("install", (event) => {
