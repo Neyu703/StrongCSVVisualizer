@@ -1,7 +1,7 @@
 {
     "name": "strong-pro",
     "private": true,
-    "version": "1.0.14",
+    "version": "1.0.15",
     "license": "SEE LICENSE IN LICENSE",
     "type": "module",
     "scripts": {
