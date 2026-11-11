@@ -96,6 +96,7 @@ src/styles/       SCSS: Design-Tokens (Apple-Systemfarben, Dark Mode), Mixins, G
 src/App.tsx       Tab-Navigation; src/useLibrary.ts: Laden, Import, Reset; src/useBodyProfile.ts: Körper-Profil
 assets/anatomy/   3D-Modelle und Maps (CC BY-SA 4.0, siehe NOTICE.md)
 scripts/publish.mjs   Kopiert dist/index.html nach StrongPro.html
+public/               Manifest, Icons und Service Worker (PWA: Home-Bildschirm, offline, Auto-Update; nur online gehostet, nicht via file://)
 ```
 
 Die Oberfläche folgt den Apple Human Interface Guidelines (Systemschrift und -farben, Large Titles, Inset-Listen, Segmented Controls, Tab-Bar, Dark Mode).
