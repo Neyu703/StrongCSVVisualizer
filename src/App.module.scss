@@ -1,5 +1,6 @@
 .content {
     max-width: var(--content-width);
     margin: 0 auto;
-    padding: 8px 16px calc(var(--tab-bar-height) + env(safe-area-inset-bottom) + 24px);
+    padding: calc(8px + env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))
+        calc(var(--tab-bar-height) + env(safe-area-inset-bottom) + 24px) max(16px, env(safe-area-inset-left));
 }

@@ -28,7 +28,7 @@ jobs:
               run: |
                   mkdir site
                   cp StrongPro.html site/index.html
-                  cp public/sw.js site/sw.js
+                  cp -r public/. site/
 
             - uses: actions/upload-pages-artifact@v4
               with:

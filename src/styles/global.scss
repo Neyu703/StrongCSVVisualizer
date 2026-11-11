@@ -13,7 +13,9 @@ html {
 
 body {
     @include body;
+    min-height: 100dvh;
     margin: 0;
+    overscroll-behavior-y: none;
     background: var(--bg-grouped);
     color: var(--label);
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", system-ui, sans-serif;
@@ -24,6 +26,12 @@ h1,
 h2,
 p {
     margin: 0;
+}
+
+button,
+input,
+select {
+    touch-action: manipulation;
 }
 
 button {
