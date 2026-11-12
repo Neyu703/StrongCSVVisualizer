@@ -104,9 +104,9 @@ Die Oberfläche folgt den Apple Human Interface Guidelines (Systemschrift und -f
 ## Entwicklung
 
 ```bash
-npm install     # Abhängigkeiten (exakt gepinnt)
-npm test        # Vitest, Coverage-Schwelle 100 % für src/core
-npm run build   # tsc + Vite (Single-File) → dist/index.html → StrongPro.html
+pnpm install    # Abhängigkeiten (exakt gepinnt)
+pnpm test       # Vitest, Coverage-Schwelle 100 % für src/core
+pnpm build       # tsc + Vite (Single-File) → dist/index.html → StrongPro.html
 ```
 
 Nur nach Code-Änderungen ist ein Build nötig; zur Nutzung reicht `StrongPro.html`. Stack: React 19, TypeScript, SCSS (CSS Modules), Recharts, Three.js, Vite mit `vite-plugin-singlefile`.

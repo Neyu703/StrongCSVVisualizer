@@ -1,7 +1,7 @@
 {
     "name": "strong-pro",
     "private": true,
-    "version": "1.0.17",
+    "version": "1.0.18",
     "license": "SEE LICENSE IN LICENSE",
     "type": "module",
     "scripts": {
@@ -15,6 +15,7 @@
         "three": "0.186.1"
     },
     "devDependencies": {
+        "@neyu703/base-css": "github:Neyu703/base-css#v1.0.0",
         "@types/react": "19.3.0",
         "@types/react-dom": "19.3.0",
         "@types/three": "0.186.0",
