@@ -1,0 +1,40 @@
+name: Promote to release
+
+# Every push to main opens a pull request main -> release and merges it at once.
+# The merge into release is what ships the result (deploy workflow or Misc/release-sync.ps1 on the build machine).
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+
+concurrency:
+  group: promote-release
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Open the pull request and merge it
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          ahead=$(gh api "repos/$GITHUB_REPOSITORY/compare/release...main" --jq .ahead_by)
+          if [ "$ahead" = "0" ]; then
+            echo "release is already up to date"
+            exit 0
+          fi
+          number=$(gh pr list --repo "$GITHUB_REPOSITORY" --base release --head main --state open --json number --jq '.[0].number // empty')
+          if [ -z "$number" ]; then
+            url=$(gh pr create --repo "$GITHUB_REPOSITORY" --base release --head main               --title "Release $(date -u +%F) (${GITHUB_SHA::7})"               --body "Automatic promotion of main to release.")
+            number=${url##*/}
+          fi
+          gh pr merge "$number" --repo "$GITHUB_REPOSITORY" --merge
+          # A merge by the default token starts no push workflow, so start the deploy explicitly
+          gh workflow run pages.yml --repo "$GITHUB_REPOSITORY" --ref release
