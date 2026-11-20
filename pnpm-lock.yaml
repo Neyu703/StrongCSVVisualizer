@@ -22,8 +22,8 @@ importers:
         version: 0.186.1
     devDependencies:
       '@neyu703/react-lib':
-        specifier: github:Neyu703/React-Lib#v0.2.0
-        version: https://codeload.github.com/Neyu703/React-Lib/tar.gz/828ffe5f94b960be42c4331d00e92fb85e165eff(react@19.3.0)
+        specifier: github:Neyu703/React-Lib#v0.5.0
+        version: https://codeload.github.com/Neyu703/React-Lib/tar.gz/93f5bbd2f65155c3c98a821d5bee4804de9e9451(@reduxjs/toolkit@2.13.0(react-redux@9.3.0(@types/react@19.3.0)(react@19.3.0)(redux@5.0.1))(react@19.3.0))(react-redux@9.3.0(@types/react@19.3.0)(react@19.3.0)(redux@5.0.1))(react@19.3.0)
       '@types/react':
         specifier: 19.3.0
         version: 19.3.0
@@ -91,11 +91,17 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@neyu703/react-lib@https://codeload.github.com/Neyu703/React-Lib/tar.gz/828ffe5f94b960be42c4331d00e92fb85e165eff':
-    resolution: {gitHosted: true, integrity: sha512-1PrNEdi6mPK81i+X01UZS2uLFW4ygTOI9XMWcupn1QiQQH+y1Il2vLfz5WSecp7W0jJLe8RhBZvqWWLLqO18Ww==, tarball: https://codeload.github.com/Neyu703/React-Lib/tar.gz/828ffe5f94b960be42c4331d00e92fb85e165eff}
-    version: 0.2.0
+  '@neyu703/react-lib@https://codeload.github.com/Neyu703/React-Lib/tar.gz/93f5bbd2f65155c3c98a821d5bee4804de9e9451':
+    resolution: {gitHosted: true, integrity: sha512-BDcpQqKJCEg3dNOETBuEs00kSyG7yT0fUEUnMZPQSnmLew03lVBrcshI47vnFasTObUMbEJaRG6mkLRxjefGdg==, tarball: https://codeload.github.com/Neyu703/React-Lib/tar.gz/93f5bbd2f65155c3c98a821d5bee4804de9e9451}
+    version: 0.5.0
     peerDependencies:
+      '@reduxjs/toolkit': ^2.0.0
+      '@testing-library/react': ^16.0.0
       react: ^19.0.0
+      react-redux: ^9.0.0
+    peerDependenciesMeta:
+      '@testing-library/react':
+        optional: true
 
   '@oxc-project/types@0.151.0':
     resolution: {integrity: sha512-J1yXrIlNDZVzE3ada310xeAw7nH8yCAyLPuUIsjKatFPmfn5bS1oW+cM+QsGOtVWd5nhSpbwZWx/rue+r5Z+PA==}
@@ -890,9 +896,11 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  '@neyu703/react-lib@https://codeload.github.com/Neyu703/React-Lib/tar.gz/828ffe5f94b960be42c4331d00e92fb85e165eff(react@19.3.0)':
+  '@neyu703/react-lib@https://codeload.github.com/Neyu703/React-Lib/tar.gz/93f5bbd2f65155c3c98a821d5bee4804de9e9451(@reduxjs/toolkit@2.13.0(react-redux@9.3.0(@types/react@19.3.0)(react@19.3.0)(redux@5.0.1))(react@19.3.0))(react-redux@9.3.0(@types/react@19.3.0)(react@19.3.0)(redux@5.0.1))(react@19.3.0)':
     dependencies:
+      '@reduxjs/toolkit': 2.13.0(react-redux@9.3.0(@types/react@19.3.0)(react@19.3.0)(redux@5.0.1))(react@19.3.0)
       react: 19.3.0
+      react-redux: 9.3.0(@types/react@19.3.0)(react@19.3.0)(redux@5.0.1)
 
   '@oxc-project/types@0.151.0': {}
 
