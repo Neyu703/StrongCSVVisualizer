@@ -21,9 +21,9 @@ importers:
         specifier: 0.186.1
         version: 0.186.1
     devDependencies:
-      '@neyu703/react-lib':
-        specifier: github:Neyu703/React-Lib#v0.2.0
-        version: https://codeload.github.com/Neyu703/React-Lib/tar.gz/828ffe5f94b960be42c4331d00e92fb85e165eff(react@19.3.0)
+      '@neyu703/base-css':
+        specifier: github:Neyu703/base-css#v1.0.0
+        version: https://codeload.github.com/Neyu703/base-css/tar.gz/c212e289ac4f4bef925731988d240cf07c4f3af7
       '@types/react':
         specifier: 19.3.0
         version: 19.3.0
@@ -91,11 +91,9 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@neyu703/react-lib@https://codeload.github.com/Neyu703/React-Lib/tar.gz/828ffe5f94b960be42c4331d00e92fb85e165eff':
-    resolution: {gitHosted: true, integrity: sha512-1PrNEdi6mPK81i+X01UZS2uLFW4ygTOI9XMWcupn1QiQQH+y1Il2vLfz5WSecp7W0jJLe8RhBZvqWWLLqO18Ww==, tarball: https://codeload.github.com/Neyu703/React-Lib/tar.gz/828ffe5f94b960be42c4331d00e92fb85e165eff}
-    version: 0.2.0
-    peerDependencies:
-      react: ^19.0.0
+  '@neyu703/base-css@https://codeload.github.com/Neyu703/base-css/tar.gz/c212e289ac4f4bef925731988d240cf07c4f3af7':
+    resolution: {gitHosted: true, integrity: sha512-tBDOIdohHvj39VqT/XvIt9ZkJpBF49sB5KRLams28risAnNxKX95xEwZTUcp6/d+H7qZhSfAHlt1gn865u9zug==, tarball: https://codeload.github.com/Neyu703/base-css/tar.gz/c212e289ac4f4bef925731988d240cf07c4f3af7}
+    version: 1.0.0
 
   '@oxc-project/types@0.151.0':
     resolution: {integrity: sha512-J1yXrIlNDZVzE3ada310xeAw7nH8yCAyLPuUIsjKatFPmfn5bS1oW+cM+QsGOtVWd5nhSpbwZWx/rue+r5Z+PA==}
@@ -890,9 +888,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  '@neyu703/react-lib@https://codeload.github.com/Neyu703/React-Lib/tar.gz/828ffe5f94b960be42c4331d00e92fb85e165eff(react@19.3.0)':
-    dependencies:
-      react: 19.3.0
+  '@neyu703/base-css@https://codeload.github.com/Neyu703/base-css/tar.gz/c212e289ac4f4bef925731988d240cf07c4f3af7': {}
 
   '@oxc-project/types@0.151.0': {}
 
